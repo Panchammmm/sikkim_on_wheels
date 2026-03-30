@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 215 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 12%;
+
+    --primary: 24 85% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 45% 20%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 210 15% 92%;
+    --muted-foreground: 215 12% 50%;
+
+    --accent: 145 40% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 18% 87%;
+    --input: 210 18% 87%;
+    --ring: 24 85% 55%;
+
+    --radius: 0.75rem;
+
+    --mountain-blue: 215 55% 25%;
+    --mountain-blue-light: 210 45% 40%;
+    --forest-green: 145 40% 30%;
+    --sunset-orange: 24 85% 55%;
+    --sunset-gold: 38 90% 58%;
+    --snow-white: 210 20% 98%;
+    --deep-night: 220 30% 8%;
+    --overlay: 220 30% 8%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  .dark {
+    --background: 220 30% 8%;
+    --foreground: 210 20% 95%;
+    --card: 220 25% 12%;
+    --card-foreground: 210 20% 95%;
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 24 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 30% 30%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 215 15% 60%;
+    --accent: 145 40% 38%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 24 85% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+  }
+}
+
+@layer utilities {
+  .text-gradient-sunset {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--sunset-orange)), hsl(var(--sunset-gold)));
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--overlay) / 0.3) 0%,
+      hsl(var(--overlay) / 0.6) 50%,
+      hsl(var(--overlay) / 0.85) 100%
+    );
+  }
+
+  .bg-gradient-mountain {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--mountain-blue)) 0%,
+      hsl(var(--mountain-blue-light)) 100%
+    );
+  }
+
+  .bg-gradient-forest {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--forest-green)) 0%,
+      hsl(var(--accent)) 100%
+    );
+  }
+
+  .glass-card {
+    @apply backdrop-blur-md border;
+    background: hsl(var(--card) / 0.8);
+  }
+
+  .section-padding {
+    @apply px-4 py-16 md:px-8 lg:px-16 lg:py-24;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
