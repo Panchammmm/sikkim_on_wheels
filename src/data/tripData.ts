@@ -1,4 +1,4 @@
-export const TRIP_START_DATE = new Date("2026-05-15T06:00:00");
+export const TRIP_START_DATE = new Date("2026-06-08T06:00:00");
 
 export interface DayItinerary {
   day: number;

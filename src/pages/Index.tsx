@@ -23,9 +23,9 @@ export default function Index() {
       <WeatherDashboard />
       <SightseeingMap />
       <DocumentsSection />
-      <PackingChecklist />
+      {/* <PackingChecklist /> */}
       <MustVisitSpots />
-      <BudgetTracker />
+      {/* <BudgetTracker /> */}
       <EmergencyContacts />
       <FooterSection />
     </div>
