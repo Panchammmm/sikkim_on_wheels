@@ -1,17 +1,45 @@
-import { Heart } from "lucide-react";
+import { Heart, MapPin, Calendar, Instagram, Github } from "lucide-react";
+
+/* ------------------ MAIN ------------------ */
 
 export default function FooterSection() {
   return (
-    <footer className="border-t border-border bg-card px-4 py-10 text-center">
-      <p className="font-display text-2xl tracking-wider text-foreground">
-        SIKKIM <span className="text-gradient-sunset">RIDE 2026</span>
-      </p>
-      <p className="mt-2 flex items-center justify-center gap-1 font-body text-sm text-muted-foreground">
-        Made with <Heart className="h-4 w-4 fill-primary text-primary" /> for the open road
-      </p>
-      <p className="mt-4 font-body text-xs text-muted-foreground">
-        May 15 – 19, 2026 · West Sikkim, India
-      </p>
+    <footer className="relative border-t border-border bg-card px-4 py-12">
+      <div className="mx-auto max-w-5xl text-center">
+        
+        {/* Title */}
+        <h2 className="font-display text-2xl tracking-wider text-foreground">
+          SIKKIM ON{" "}
+          <span className="text-gradient-sunset">WHEELS 2026</span>
+        </h2>
+
+        {/* Subtitle */}
+        <p className="mt-3 flex items-center justify-center gap-1 text-xs text-muted-foreground">
+          Crafted with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by{" "}
+          <span className="text-gradient-sunset">Pancham Sardar</span>
+        </p>
+
+        {/* Trip Info */}
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            June 12 – 16, 2026
+          </span>
+
+          <span className="flex items-center gap-1">
+            <MapPin className="h-3 w-3" />
+            West Sikkim, India
+          </span>
+        </div>
+
+        {/* Divider */}
+        <div className="my-6 h-px w-full bg-border" />
+
+        {/* Bottom Note */}
+        <p className="text-[10px] text-muted-foreground">
+          © 2026 Sikkim on Wheels · Built for adventure 🏍️
+        </p>
+      </div>
     </footer>
   );
 }

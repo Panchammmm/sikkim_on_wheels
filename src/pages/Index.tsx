@@ -6,9 +6,7 @@ import ElevationChart from "@/components/trip/ElevationChart";
 import WeatherDashboard from "@/components/trip/WeatherDashboard";
 import SightseeingMap from "@/components/trip/SightseeingMap";
 import DocumentsSection from "@/components/trip/DocumentsSection";
-import PackingChecklist from "@/components/trip/PackingChecklist";
 import MustVisitSpots from "@/components/trip/MustVisitSpots";
-import BudgetTracker from "@/components/trip/BudgetTracker";
 import EmergencyContacts from "@/components/trip/EmergencyContacts";
 import FooterSection from "@/components/trip/FooterSection";
 
