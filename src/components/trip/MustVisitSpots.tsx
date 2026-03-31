@@ -6,7 +6,7 @@ export default function MustVisitSpots() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="spots" className="section-padding bg-background">
+    <section id="spots" className="section-padding bg-muted/50">
       <div ref={ref} className="mx-auto max-w-5xl">
         <h2
           className={`font-display text-center text-4xl tracking-wider text-foreground sm:text-5xl ${

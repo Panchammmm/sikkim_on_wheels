@@ -1,6 +1,8 @@
 import { FileText, Bike } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
+/* DATA */
+
 const documents = [
   "Valid Driving License (original)",
   "Vehicle Registration Certificate (RC)",
@@ -22,48 +24,94 @@ const bikeChecklist = [
   "Spare key, fuse set, spark plug",
 ];
 
+/* REUSABLE CARD */
+
+function ChecklistCard({
+  icon: Icon,
+  title,
+  items,
+  accentColor = "bg-primary",
+  animationClass,
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-border bg-card p-6 
+      transition-all duration-700 ease-out hover:shadow-lg
+      ${animationClass}`}
+    >
+      {/* Header */}
+      <div className="mb-4 flex items-center gap-2">
+        <Icon className="h-5 w-5 text-primary" />
+        <h3 className="font-display text-xl tracking-wide text-foreground">
+          {title}
+        </h3>
+      </div>
+
+      {/* List */}
+      <ul role="list" className="space-y-3">
+        {items.map((item, index) => (
+          <li
+            key={index}
+            className="flex items-start gap-2 font-body text-sm text-muted-foreground"
+          >
+            <span
+              className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${accentColor}`}
+            />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* MAIN SECTION */
+
 export default function DocumentsSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="section-padding bg-muted/50">
-      <div ref={ref} className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
-        <div
-          className={`rounded-2xl border border-border bg-card p-6 ${
-            isVisible ? "animate-slide-in-left" : "opacity-0"
-          }`}
+    <section
+      ref={ref}
+      aria-labelledby="documents-section-heading"
+      className="pt-12 pb-28 bg-background"
+    >
+      <div className="mx-auto max-w-5xl px-4">
+        {/* Section Heading */}
+        <h2
+          id="documents-section-heading"
+          className="mb-10 text-center font-display text-2xl tracking-wide text-foreground"
         >
-          <div className="mb-4 flex items-center gap-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <h3 className="font-display text-xl tracking-wide text-foreground">Documents Required</h3>
-          </div>
-          <ul className="space-y-2">
-            {documents.map((d) => (
-              <li key={d} className="flex items-start gap-2 font-body text-sm text-muted-foreground">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                {d}
-              </li>
-            ))}
-          </ul>
-        </div>
+          Trip Essentials Checklist
+        </h2>
 
-        <div
-          className={`rounded-2xl border border-border bg-card p-6 ${
-            isVisible ? "animate-slide-in-right" : "opacity-0"
-          }`}
-        >
-          <div className="mb-4 flex items-center gap-2">
-            <Bike className="h-5 w-5 text-primary" />
-            <h3 className="font-display text-xl tracking-wide text-foreground">Bike Preparation</h3>
-          </div>
-          <ul className="space-y-2">
-            {bikeChecklist.map((d) => (
-              <li key={d} className="flex items-start gap-2 font-body text-sm text-muted-foreground">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                {d}
-              </li>
-            ))}
-          </ul>
+        {/* Grid */}
+        <div className="grid gap-8 sm:grid-cols-2">
+          {/* Documents Card */}
+          <ChecklistCard
+            icon={FileText}
+            title="Documents Required"
+            items={documents}
+            accentColor="bg-primary"
+            animationClass={
+              isVisible
+                ? "animate-slide-in-left opacity-100"
+                : "opacity-0 translate-x-[-40px]"
+            }
+          />
+
+          {/* Bike Card */}
+          <ChecklistCard
+            icon={Bike}
+            title="Bike Preparation"
+            items={bikeChecklist}
+            accentColor="bg-accent"
+            animationClass={
+              isVisible
+                ? "animate-slide-in-right opacity-100"
+                : "opacity-0 translate-x-[40px]"
+            }
+          />
         </div>
       </div>
     </section>

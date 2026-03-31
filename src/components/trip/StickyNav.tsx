@@ -8,9 +8,7 @@ const navLinks = [
   { label: "Elevation", href: "#elevation" },
   { label: "Weather", href: "#weather" },
   { label: "Map", href: "#map" },
-  { label: "Packing", href: "#packing" },
   { label: "Spots", href: "#spots" },
-  // { label: "Budget", href: "#budget" },
   { label: "Emergency", href: "#emergency" },
 ];
 
@@ -19,7 +17,7 @@ export default function StickyNav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
 
-  // 🔥 Scroll detection (optimized)
+  // Scroll detection with requestAnimationFrame for better performance
   useEffect(() => {
     let ticking = false;
 
@@ -37,7 +35,7 @@ export default function StickyNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 🔥 Scroll spy
+  // Scroll spy
   useEffect(() => {
     const sections = navLinks.map((l) =>
       document.querySelector(l.href)
@@ -62,7 +60,7 @@ export default function StickyNav() {
     return () => observer.disconnect();
   }, []);
 
-  // 🔥 Lock scroll when mobile menu open
+  // Lock scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -70,7 +68,7 @@ export default function StickyNav() {
     };
   }, [open]);
 
-  // 🔥 Smooth scroll handler
+  // Smooth scroll handler
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const el = document.querySelector(href);
