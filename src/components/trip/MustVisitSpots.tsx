@@ -1,35 +1,19 @@
 import { Star, Clock, Sparkles, MapPin } from "lucide-react";
-import { motion, easeOut } from "framer-motion";
 import { mustVisitSpots } from "@/data/tripData";
-
-/* ANIMATION VARIANTS */
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: easeOut },
-  },
-};
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 /* CARD */
 
-function SpotCard({ spot }) {
+function SpotCard({ spot, index, isVisible }) {
   return (
-    <motion.div
-      variants={cardVariants}
-      className="group relative overflow-hidden rounded-2xl border border-border bg-card 
-      transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+    <div
+      className={`group relative overflow-hidden rounded-2xl border border-border bg-card 
+      transition-all delay-150 duration-700 ease-out
+      ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
+      hover:-translate-y-2 hover:shadow-2xl`}
+      style={{
+        transitionDelay: `${index * 100}ms`, // manual stagger
+      }}
     >
       {/* Image */}
       <div className="relative h-40 w-full overflow-hidden">
@@ -39,17 +23,14 @@ function SpotCard({ spot }) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
 
-        {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-        {/* Hidden Gem Badge */}
         {spot.hidden && (
           <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-sunset-gold/20 px-2.5 py-1 text-[10px] font-semibold text-sunset-gold backdrop-blur">
             <Sparkles className="h-3 w-3" /> Hidden Gem
           </span>
         )}
 
-        {/* Title on image */}
         <h3 className="absolute bottom-3 left-3 right-3 font-display text-lg text-white">
           {spot.name}
         </h3>
@@ -57,12 +38,10 @@ function SpotCard({ spot }) {
 
       {/* Content */}
       <div className="p-5">
-        {/* Description */}
         <p className="text-xs leading-relaxed text-muted-foreground">
           {spot.description}
         </p>
 
-        {/* Meta */}
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-sm text-sunset">
@@ -76,10 +55,9 @@ function SpotCard({ spot }) {
             </span>
           </div>
 
-          {/* Map Button */}
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-              spot.name
+              spot.name,
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -90,45 +68,49 @@ function SpotCard({ spot }) {
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 /* MAIN */
 
 export default function MustVisitSpots() {
+  const { ref, isVisible } = useScrollAnimation(0.2);
+
   return (
-    <section
-      id="spots"
-      aria-labelledby="spots-heading"
-      className="section-padding bg-muted/50"
-    >
+    <section ref={ref} id="spots" className="section-padding bg-muted/50">
       <div className="mx-auto max-w-6xl px-4">
         {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          id="spots-heading"
-          className="text-center font-display text-4xl tracking-wider text-foreground sm:text-5xl"
+        <h2
+          className={`text-center font-display text-4xl tracking-wider text-foreground sm:text-5xl
+          transition-all duration-700
+          ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
-          Must-Visit{" "}
-          <span className="text-gradient-sunset">Spots</span>
-        </motion.h2>
+          Must-Visit <span className="text-gradient-sunset">Spots</span>
+        </h2>
+
+        {/* Subheading */}
+        <p
+          className={`mx-auto mt-4 max-w-xl text-center font-body text-muted-foreground
+          transition-all duration-700
+          ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+          style={{ transitionDelay: "150ms" }}
+        >
+          Discover handpicked locations across Sikkim from iconic viewpoints
+          to hidden gems tucked away in the mountains.
+        </p>
 
         {/* Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {mustVisitSpots.map((spot, i) => (
-            <SpotCard key={`${spot.name}-${i}`} spot={spot} />
+            <SpotCard
+              key={`${spot.name}-${i}`}
+              spot={spot}
+              index={i}
+              isVisible={isVisible}
+            />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -18,7 +18,7 @@ type Stat = {
 
 const stats: Stat[] = [
   { icon: Route, label: "Total Distance", value: `${totalDistance} km` },
-  { icon: MapPin, label: "Start / End", value: "Siliguri" },
+  { icon: MapPin, label: "Start / End", value: "New Jalpaiguri" },
   { icon: Mountain, label: "Max Altitude", value: "2,200m" },
   { icon: Clock, label: "Duration", value: "5 Days" },
   { icon: Calendar, label: "Best Season", value: "Oct - May" },
@@ -67,7 +67,7 @@ export default function TripOverview() {
           variants={itemVariants}
           className="mx-auto mt-4 max-w-2xl text-center font-body text-muted-foreground"
         >
-          A thrilling motorcycle ride through the enchanting landscapes of West Sikkim —
+          A thrilling motorcycle ride through the enchanting landscapes of West Sikkim
           from the plains of Siliguri to the monastery-dotted hills near Kanchenjunga.
         </motion.p>
 

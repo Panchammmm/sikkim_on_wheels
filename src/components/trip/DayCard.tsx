@@ -52,6 +52,8 @@ export default function DayCard({ data }: { data: DayItinerary }) {
   const [expanded, setExpanded] = useState(false);
   const { ref, isVisible } = useScrollAnimation();
 
+  const hasWeather = !!data.weather;
+
   const stats: Stat[] = [
     { icon: Route, label: "Distance", value: `${data.distance} km` },
     { icon: Clock, label: "Time", value: data.travelTime },
@@ -59,7 +61,9 @@ export default function DayCard({ data }: { data: DayItinerary }) {
     {
       icon: Cloud,
       label: "Weather",
-      value: `${data.weather.high}°/${data.weather.low}°C`,
+      value: hasWeather
+        ? `${data.weather.icon} ${data.weather.high}°C`
+        : "—",
     },
   ];
 
@@ -88,8 +92,7 @@ export default function DayCard({ data }: { data: DayItinerary }) {
             </div>
           </div>
           <span
-            className={`rounded-full px-3 py-1 font-body text-xs font-semibold capitalize ${difficultyColors[data.difficulty]
-              }`}
+            className={`rounded-full px-3 py-1 font-body text-xs font-semibold capitalize ${difficultyColors[data.difficulty]}`}
           >
             {data.difficulty}
           </span>
@@ -145,8 +148,9 @@ export default function DayCard({ data }: { data: DayItinerary }) {
         >
           {expanded ? "Less details" : "More details"}
           <ChevronDown
-            className={`h-4 w-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""
-              }`}
+            className={`h-4 w-4 transition-transform duration-300 ${
+              expanded ? "rotate-180" : ""
+            }`}
           />
         </button>
 
@@ -183,9 +187,23 @@ export default function DayCard({ data }: { data: DayItinerary }) {
                 <motion.div variants={itemVariants} className="flex items-start gap-3">
                   <Droplets className="mt-0.5 h-4 w-4 text-mountain-light" />
                   <div>
-                    <p className="font-body text-sm text-foreground">
-                      {data.weather.condition} · Rain chance: {data.weather.rain}%
-                    </p>
+                    {hasWeather ? (
+                      <div className="space-y-1">
+                        <p className="font-body text-sm text-foreground">
+                          {data.weather.icon} {data.weather.condition}
+                        </p>
+                        <p className="font-body text-xs text-muted-foreground">
+                          🌡 {data.weather.high}°C (feels like {data.weather.feelsLike}°C)
+                        </p>
+                        <p className="font-body text-xs text-muted-foreground">
+                          💨 Wind: {data.weather.windSpeed} km/h
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="font-body text-sm text-muted-foreground">
+                        Fetching weather...
+                      </p>
+                    )}
                   </div>
                 </motion.div>
 

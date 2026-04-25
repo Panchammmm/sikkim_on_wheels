@@ -5,17 +5,28 @@ export function useScrollAnimation(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect();
+          // Unobserve only this element instead of killing observer
+          observer.unobserve(entry.target);
         }
       },
       { threshold }
     );
 
-    if (ref.current) observer.observe(ref.current);
+    observer.observe(element);
+
+    // EXTRA SAFETY: handle already-visible elements
+    const rect = element.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+      setIsVisible(true);
+    }
+
     return () => observer.disconnect();
   }, [threshold]);
 

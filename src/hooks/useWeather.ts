@@ -38,8 +38,8 @@ function decodeWMO(code: number) {
 const LOCATIONS = [
   { name: "Siliguri", lat: 26.7271, lon: 88.3953 },
   { name: "Rinchenpong", lat: 27.1833, lon: 88.2667 },
+  { name: "Namchi", lat: 27.303, lon: 88.378 },
   { name: "Pelling", lat: 27.299, lon: 88.234 },
-  { name: "Yuksom", lat: 27.369, lon: 88.221 },
   { name: "Ravangla", lat: 27.307, lon: 88.363 },
 ];
 

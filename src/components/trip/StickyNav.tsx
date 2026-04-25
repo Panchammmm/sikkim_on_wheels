@@ -93,7 +93,7 @@ export default function StickyNav() {
           onClick={(e) => handleScroll(e, "#hero")}
           className="font-display text-xl tracking-wider text-white"
         >
-          SIKKIM ON WHEEL
+          SIKKIM ON WHEELS
         </a>
 
         {/* Desktop Nav */}

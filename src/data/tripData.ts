@@ -1,4 +1,4 @@
-export const TRIP_START_DATE = new Date("2026-06-08T06:00:00");
+export const TRIP_START_DATE = new Date("2026-06-18T06:00:00");
 
 export interface DayItinerary {
   day: number;
@@ -15,20 +15,28 @@ export interface DayItinerary {
   highlights: string[];
   foodSpots: string[];
   tips: string[];
-  weather: { high: number; low: number; condition: string; rain: number };
+
+  // Weather now comes ONLY from API
+  weather?: {
+    high: number;
+    condition: string;
+    icon: string;
+    windSpeed: number;
+    feelsLike: number;
+  };
 }
 
 export const itinerary: DayItinerary[] = [
   {
     day: 1,
-    from: "Siliguri",
+    from: "NJP Station",
     to: "Rinchenpong",
     distance: 120,
     travelTime: "5-6 hours",
     elevation: 1700,
     elevationGain: "+1550m",
     difficulty: "moderate",
-    route: "Siliguri → Jorethang → Legship → Rinchenpong",
+    route: "NJP Station → Jorethang → Legship → Rinchenpong",
     accommodation: "Rinchenpong Homestay",
     accommodationAddress: "Upper Rinchenpong, West Sikkim",
     highlights: [
@@ -46,8 +54,8 @@ export const itinerary: DayItinerary[] = [
       "Carry rain gear - weather changes quickly after Jorethang",
       "Fill up fuel at Jorethang, no stations after",
     ],
-    weather: { high: 18, low: 8, condition: "Partly Cloudy", rain: 30 },
   },
+
   {
     day: 2,
     from: "Rinchenpong",
@@ -57,14 +65,14 @@ export const itinerary: DayItinerary[] = [
     elevation: 2150,
     elevationGain: "+450m",
     difficulty: "easy",
-    route: "Rinchenpong → Dentam → Pelling",
+    route: "Rinchenpong → Legship → Pelling City",
     accommodation: "Hotel Mount Pandim",
     accommodationAddress: "Upper Pelling, West Sikkim 737113",
     highlights: [
       "Sunrise over Kanchenjunga from Rinchenpong",
+      "Legship town - mahadev temple and river views",
       "Pemayangtse Monastery - oldest in Sikkim",
       "Rabdentse Ruins - ancient capital",
-      "Skywalk at Pelling",
     ],
     foodSpots: [
       "Pelling Main Market - Tibetan eateries",
@@ -73,96 +81,99 @@ export const itinerary: DayItinerary[] = [
     tips: [
       "Catch sunrise before leaving Rinchenpong",
       "Roads are well-paved but narrow - ride cautiously",
-      "Visit Pemayangtse before 4 PM",
+      "Visit Pemayangtse Monastery before 4 PM",
     ],
-    weather: { high: 15, low: 5, condition: "Clear Sky", rain: 15 },
   },
+
   {
     day: 3,
     from: "Pelling",
-    to: "Yuksom",
+    to: "Pelling City",
     distance: 40,
-    travelTime: "2-3 hours",
-    elevation: 1780,
-    elevationGain: "-370m",
-    difficulty: "moderate",
-    route: "Pelling → Khecheopalri → Yuksom",
+    travelTime: "4-5 hours",
+    elevation: 2200,
+    elevationGain: "+400m",
+    difficulty: "easy",
+    route: "Pelling → Skywalk → Rimbi → Pelling City",
     accommodation: "Tashigang Resort",
-    accommodationAddress: "Yuksom, West Sikkim 737114",
+    accommodationAddress: "Pelling, West Sikkim 737113",
     highlights: [
-      "Khecheopalri Lake - sacred wishing lake",
-      "Coronation Throne of first Chogyal",
-      "Dubdi Monastery trek",
-      "Yuksom village charm",
+      "Helipad Ground's 360° Kanchenjunga viewpoint",
+      "Skywalk at Pelling",
+      "Sangachoeling Monastery near Skywalk",
+      "Rimbi Waterfall & Orange Garden - riverside gardens, ~12 km from Pelling",
     ],
     foodSpots: [
-      "Gupta Restaurant Yuksom - best dal bhat",
-      "Local bakeries for fresh bread",
+      "Hotel Garuda Restaurant - local Sikkimese thali",
+      "Pelling Bakery - fresh bread and momos in the morning",
+      "Raza Rasoi (near Rimbi Road) - good for a mid-day break",
     ],
     tips: [
-      "Khecheopalri Lake visit takes ~1 hour",
-      "Road has some rough patches near Yuksom",
-      "Yuksom is the base for Goechala trek",
+      "Start at Helipad by 6:30 AM for clearest Kanchenjunga views",
+      "Skywalk opens at 8 AM - arrive early, entry fee ₹100",
+      "Park bikes at Skywalk, trek 15 min uphill to Sangachoeling",
     ],
-    weather: { high: 17, low: 7, condition: "Light Showers", rain: 55 },
   },
+
   {
     day: 4,
-    from: "Yuksom",
-    to: "Ravangla",
-    distance: 65,
-    travelTime: "3-4 hours",
-    elevation: 2200,
-    elevationGain: "+420m",
+    from: "Pelling",
+    to: "Namchi",
+    distance: 72,
+    travelTime: "5-6 hours",
+    elevation: 1675,
+    elevationGain: "-475m",
     difficulty: "moderate",
-    route: "Yuksom → Tashiding → Ravangla",
-    accommodation: "Cherry Resort",
-    accommodationAddress: "Ravangla, South Sikkim 737139",
+    route: "Pelling → Ravangla → Temi → Namchi",
+    accommodation: "Hotel Blue Sapphire",
+    accommodationAddress: "Namchi, South Sikkim 737126",
     highlights: [
-      "Tashiding Monastery - holiest in Sikkim",
-      "Buddha Park (Tathagata Tsal)",
-      "Tea gardens of Ravangla",
-      "Maenam Hill viewpoint",
+      "Buddha Park - 137ft sitting Buddha statue",
+      "Temi Tea Garden - Sikkim's only tea estate",
+      "Char Dham - 87ft Lord Shiva statue + 12 Jyotirlingas",
+      "Samdruptse Hill - 135ft golden Guru Padmasambhava statue",
+      "Namchi Rock Garden - manicured garden with ropeway to Samdruptse",
     ],
     foodSpots: [
-      "Ravangla Bazaar - local Sikkimese cuisine",
-      "Buddha Park cafeteria",
+      "Ravangla Bazaar - local Sikkimese dal bhat and momos",
+      "Temi Tea Garden - sip fresh organic Sikkim tea on site",
+      "Blue Sky Restaurant, Namchi - Tibetan and Indian dishes",
     ],
     tips: [
-      "Tashiding monastery is a slight detour but worth it",
-      "Buddha Park closes at 5 PM",
-      "Ravangla has the best tea - buy some to take home",
+      "Leave Pelling early - ~49 km to Ravangla takes 2+ hours on hill roads",
+      "Char Dham entry via ropeway from Namchi is scenic, small fee applies",
+      "Namchi is at 1675m - warmer than Pelling, lighter gear in the evening",
     ],
-    weather: { high: 16, low: 6, condition: "Mostly Clear", rain: 20 },
   },
+
   {
     day: 5,
-    from: "Ravangla",
-    to: "Siliguri",
-    distance: 150,
-    travelTime: "6-7 hours",
-    elevation: 150,
-    elevationGain: "-2050m",
-    difficulty: "challenging",
-    route: "Ravangla → Namchi → Melli → Teesta Bazaar → Siliguri",
-    accommodation: "Journey ends at Siliguri",
-    accommodationAddress: "N/A",
+    from: "Namchi",
+    to: "NJP Station",
+    distance: 96,
+    travelTime: "4-5 hours",
+    elevation: 120,
+    elevationGain: "-1555m",
+    difficulty: "moderate",
+    route: "Namchi → NJP",
+    accommodation: "Trip ends at NJP Station",
+    accommodationAddress: "New Jalpaiguri Railway Station, West Bengal",
     highlights: [
-      "Namchi Char Dham & Samdruptse viewpoint",
-      "Temi Tea Garden stop",
-      "Teesta River descent",
-      "Final stretch along NH10",
+      "Namchi farewell views of Kanchenjunga before the descent",
+      "Jorethang - confluence of Rangeet & Rangbhang rivers",
+      "Teesta River valley ride - stunning gorge scenery along NH10",
     ],
     foodSpots: [
-      "Namchi Market - farewell momos",
-      "Teesta Bazaar - riverside lunch",
+      "Namchi Market - early morning momos & chai before departure",
+      "Hotel Solophok (Melli Road, Namchi) - good breakfast stop",
+      "Teesta Bazaar dhabas - riverside lunch before the flat stretch",
     ],
     tips: [
-      "Long riding day - start by 6 AM",
-      "Road from Melli to Siliguri gets heavy traffic after 3 PM",
-      "Keep energy bars and water handy",
+      "Start by 7 AM - 96 km is manageable but Sikkim hill roads need time",
+      "Namchi → Jorethang descent is steep and winding - brake carefully",
+      "Melli is the Sikkim border - carry ID, quick checkpost stop",
+      "Teesta Bazaar to Siliguri on NH10 gets very heavy traffic after 2 PM",
     ],
-    weather: { high: 28, low: 18, condition: "Warm & Humid", rain: 40 },
   },
 ];
 
@@ -228,7 +239,7 @@ export const mustVisitSpots = [
     time: "1-2 hours",
     description: "One of the oldest monasteries in Sikkim with stunning Kanchenjunga views",
     hidden: false,
-    image: "https://images.unsplash.com/photo-1583241800698-9c64b9f5b6e3?q=80&w=1200",
+    image: "https://s7ap1.scene7.com/is/image/incredibleindia/spiritual-spots-in-pelling-popular?qlt=82&ts=1726655959297",
   },
   {
     name: "Khecheopalri Lake",
@@ -236,7 +247,7 @@ export const mustVisitSpots = [
     time: "45 min",
     description: "Sacred wishing lake surrounded by forest and prayer flags",
     hidden: true,
-    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?q=80&w=1200",
+    image: "https://edvanceupsc.com/wp-content/uploads/2021/12/maxresdefault.jpg",
   },
   {
     name: "Rabdentse Ruins",
@@ -244,15 +255,7 @@ export const mustVisitSpots = [
     time: "1 hour",
     description: "Ancient ruins of Sikkim’s second capital with scenic forest trails",
     hidden: false,
-    image: "https://images.unsplash.com/photo-1598866594230-a7c12756260f?q=80&w=1200",
-  },
-  {
-    name: "Dubdi Monastery",
-    rating: 4.7,
-    time: "2 hours (trek)",
-    description: "Oldest monastery in Sikkim, reached via a forest trek from Yuksom",
-    hidden: true,
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200",
+    image: "https://www.discoverimages.com/p/251/india-sikkim-pelling-rabdentse-ruins-19483787.jpg.webp",
   },
   {
     name: "Buddha Park Ravangla",
@@ -260,7 +263,7 @@ export const mustVisitSpots = [
     time: "1.5 hours",
     description: "Massive Buddha statue with panoramic Himalayan views",
     hidden: false,
-    image: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?q=80&w=1200",
+    image: "https://miro.medium.com/v2/0*QVORolmzs-afKhxc.",
   },
   {
     name: "Temi Tea Garden",
@@ -268,7 +271,7 @@ export const mustVisitSpots = [
     time: "1 hour",
     description: "Lush tea estate offering beautiful rolling green landscapes",
     hidden: true,
-    image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200",
+    image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/474878305_122214932990172200_8485119097410773648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=7b2446&_nc_ohc=PNaZbHZ_6LsQ7kNvwEOe7nw&_nc_oc=AdrzIXhAyW1aFygEOBCHCsd94DtF5mP7YhJ3Ri00Rbu_zwAc-kUOZr8a2RmrDUzsrHg&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=LP4U8QN_vItzg7wU5J7Akg&_nc_ss=7a389&oh=00_Af0U2j9K0lZPN79DnzqFJbuIZDmewXy51f4F0nItGw8ELg&oe=69EE5D5F",
   },
   {
     name: "Pelling Skywalk",
@@ -276,47 +279,7 @@ export const mustVisitSpots = [
     time: "30 min",
     description: "Glass skywalk offering breathtaking valley views",
     hidden: false,
-    image: "https://images.unsplash.com/photo-1605538883669-8257b8c0a1f4?q=80&w=1200",
-  },
-  {
-    name: "Singshore Bridge",
-    rating: 4.6,
-    time: "30-45 min",
-    description: "Second highest suspension bridge in Asia with deep gorge views",
-    hidden: false,
-    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200",
-  },
-  {
-    name: "Kanchenjunga Falls",
-    rating: 4.7,
-    time: "30 min",
-    description: "Powerful roadside waterfall surrounded by greenery",
-    hidden: false,
-    image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1200",
-  },
-  {
-    name: "Rimbi Waterfalls",
-    rating: 4.3,
-    time: "30 min",
-    description: "Peaceful waterfall perfect for quick scenic stops",
-    hidden: true,
-    image: "https://images.unsplash.com/photo-1504198266285-165a3b7a0c4b?q=80&w=1200",
-  },
-  {
-    name: "Yuksom Village",
-    rating: 4.7,
-    time: "2-3 hours",
-    description: "Historic first capital of Sikkim and trek base",
-    hidden: false,
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1200",
-  },
-  {
-    name: "Tashiding Monastery",
-    rating: 4.5,
-    time: "1.5 hours",
-    description: "Sacred hilltop monastery with spiritual significance",
-    hidden: true,
-    image: "https://images.unsplash.com/photo-1609766856923-7c63c3b77a38?q=80&w=1200",
+    image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/605507064_862512436530082_2835745525312044334_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=7b2446&_nc_ohc=623lNfgN_TkQ7kNvwGJBmnO&_nc_oc=AdoqQlmaSsXnPa5GK-xa7bGfqTpeyBSjDXfhLiD-HOTQb_ZN3RjWJTy1dCkTIoKNVU8&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=w32hhH_4HL6qBAszYZGzqA&_nc_ss=7a389&oh=00_Af0bb95dPHy05ogeIRdeAkJc6zCNu5K4GfJH4tUmz7Uttg&oe=69EE338B",
   },
   {
     name: "Char Dham Namchi",
@@ -324,7 +287,7 @@ export const mustVisitSpots = [
     time: "2 hours",
     description: "Pilgrimage site with giant Shiva statue and replicas of Char Dham",
     hidden: false,
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=1200",
+    image: "https://curlytales.com/wp-content/uploads/2020/10/1162cba28418a3eaa344dd62176ffa08-1.jpg",
   },
   {
     name: "Samdruptse Hill",
@@ -332,7 +295,7 @@ export const mustVisitSpots = [
     time: "1 hour",
     description: "Hilltop with giant Guru Padmasambhava statue",
     hidden: true,
-    image: "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1200",
+    image: "http://juniperresidency.com/assets/img/about1.jpg",
   },
 ];
 
