@@ -295,7 +295,7 @@ export const mustVisitSpots = [
     time: "1 hour",
     description: "Hilltop with giant Guru Padmasambhava statue",
     hidden: true,
-    image: "http://juniperresidency.com/assets/img/about1.jpg",
+    image: "spotimg1",
   },
 ];
 
