@@ -23,7 +23,7 @@ export default function FooterSection() {
         <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
-            June 12 – 16, 2026
+            June 18 – 23, 2026
           </span>
 
           <span className="flex items-center gap-1">
