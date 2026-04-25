@@ -295,7 +295,7 @@ export const mustVisitSpots = [
     time: "1 hour",
     description: "Hilltop with giant Guru Padmasambhava statue",
     hidden: true,
-    image: "spotimg1",
+    image: "https://raw.githubusercontent.com/Panchammmm/sikkim_on_wheels/ea2aafc78a314ad28c2cfc1386bfe0cb1387d0f6/src/assets/spot.jpg",
   },
 ];
 
