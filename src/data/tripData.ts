@@ -63,10 +63,19 @@ export type LatLng = {
   lng: number;
 };
 
-export type DifficultyConfig = Record<
+export const DifficultyConfig: Record<
   DayItinerary["difficulty"],
   { label: string; color: string }
->;
+> = {
+  easy: { label: "Easy", color: "#10B981" },
+  moderate: { label: "Moderate", color: "#F59E0B" },
+  challenging: { label: "Challenging", color: "#EF4444" },
+};
+
+export type RouteCache = Record<number, LatLng[] | "fallback">;
+
+// Sidebar content tabs
+export type SidebarTab = "highlights" | "food" | "tips";
 
 export const itinerary: DayItinerary[] = [
   {
