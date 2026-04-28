@@ -7,6 +7,7 @@ import {
   loadGoogleMapsScript,
 } from "@/hooks/mapUtils";
 import { DayTab, MapPanel, Sidebar } from "./TripMapUI";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 declare global {
   interface Window {
@@ -44,6 +45,8 @@ const TripMap: React.FC = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [routeLoading, setRouteLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<SidebarTab>("highlights");
+  const { ref: sectionRef, isVisible } = useScrollAnimation(0.1);
+
 
   const day = itinerary[activeDay];
   const meta = getDayMeta(activeDay);
@@ -127,7 +130,7 @@ const TripMap: React.FC = () => {
     // importLibrary is idempotent — guarantees AdvancedMarkerElement is ready
     // even if the libraries=marker param in the script URL loaded asynchronously.
     await window.google.maps.importLibrary("marker");
-    if (!mapInstanceRef.current) return; // unmounted during await
+    if (!mapInstanceRef.current) return;
 
     abortControllerRef.current?.abort();
     const controller = new AbortController();
@@ -200,61 +203,78 @@ const TripMap: React.FC = () => {
 
   // ── Render 
   return (
-    <section id="trip-map" className="py-16">
-      <div className="max-w-[1200px] mx-auto px-6">
+    <section ref={sectionRef} id="trip-map" className="py-10 sm:py-16">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
 
         {/* Heading */}
         <div className="mb-8">
-          <h1 className="text-center font-display text-4xl tracking-wider text-foreground sm:text-5xl">
+          <h1 className={`text-center font-display text-3xl sm:text-4xl lg:text-5xl tracking-wider text-foreground transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             Explore the <span className="text-gradient-sunset">Ride Route</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-center font-body text-muted-foreground">
+          <p className={`mx-auto mt-3 sm:mt-4 max-w-xl text-center font-body text-muted-foreground text-sm sm:text-base transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`} style={{ transitionDelay: isVisible ? "150ms" : "0ms" }}>
             Follow your journey across Sikkim with live GPS tracking and real road routes.
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-[#0d1117] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-white/[0.06]">
+        <div className={`bg-[#0d1117] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-white/[0.06] transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`} style={{ transitionDelay: isVisible ? "250ms" : "0ms" }}>
 
           {/* Card header: day label + loading indicator + day tabs */}
           <div
-            className="border-b border-white/[0.08] px-6 pt-5 pb-4"
+            className="border-b border-white/[0.08] px-4 sm:px-6 pt-4 sm:pt-5 pb-3 sm:pb-4"
             style={{ background: `linear-gradient(135deg, ${meta.color}22 0%, transparent 60%)` }}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm text-white shrink-0"
+                className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-white shrink-0"
                 style={{ background: meta.color }}
                 aria-hidden="true"
               >
                 D{day.day}
               </div>
-              <div className="flex-1">
-                <p className="text-white font-bold text-base tracking-wide m-0">{day.from} → {day.to}</p>
-                <p className="text-white/40 text-xs mt-0.5 m-0">{day.route}</p>
+              <div className="flex-1 min-w-0">
+                {/* Truncate on very small screens */}
+                <p className="text-white font-bold text-sm sm:text-base tracking-wide m-0 truncate">
+                  {day.from} → {day.to}
+                </p>
+                <p className="text-white/40 text-[11px] sm:text-xs mt-0.5 m-0 truncate">{day.route}</p>
               </div>
               {routeLoading && (
-                <div className="flex items-center gap-2 text-white/40 text-xs" role="status" aria-live="polite" aria-label="Finding road route">
+                <div
+                  className="flex items-center gap-1.5 sm:gap-2 text-white/40 text-[11px] sm:text-xs shrink-0"
+                  role="status"
+                  aria-live="polite"
+                  aria-label="Finding road route"
+                >
                   <div
-                    className="w-3.5 h-3.5 rounded-full border-2 border-t-transparent animate-spin shrink-0"
+                    className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full border-2 border-t-transparent animate-spin shrink-0"
                     style={{ borderColor: `${meta.color} transparent transparent transparent` }}
                     aria-hidden="true"
                   />
-                  <span>Finding road…</span>
+                  {/* Hide text on very small screens to prevent header overflow */}
+                  <span className="hidden xs:inline">Finding road…</span>
                 </div>
               )}
             </div>
 
-            {/* Day tabs */}
-            <div role="tablist" aria-label="Select day" className="flex gap-2 flex-wrap">
+            {/* Day tabs — scrollable on mobile so they never wrap to two lines */}
+            <div
+              role="tablist"
+              aria-label="Select day"
+              className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-0.5 -mx-1 px-1 scrollbar-none"
+              style={{ scrollbarWidth: "none" }}
+            >
               {itinerary.map((d, i) => (
                 <DayTab key={d.day} day={d} index={i} active={i === activeDay} onClick={() => setActiveDay(i)} />
               ))}
             </div>
           </div>
 
-          {/* Map + Sidebar */}
-          <div className="flex flex-row h-[560px] min-h-[480px]">
+          {/* Map + Sidebar
+              Mobile:  stacked (flex-col) — map on top, sidebar below
+              Desktop: side-by-side (sm:flex-row) — original layout
+          */}
+          <div className="flex flex-col sm:flex-row sm:h-[560px] sm:min-h-[480px]">
             <MapPanel
               mapRef={mapRef}
               mapLoaded={mapLoaded}
