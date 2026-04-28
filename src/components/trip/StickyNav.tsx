@@ -7,7 +7,7 @@ const navLinks = [
   { label: "Itinerary", href: "#itinerary" },
   { label: "Elevation", href: "#elevation" },
   { label: "Weather", href: "#weather" },
-  { label: "Map", href: "#map" },
+  { label: "Route", href: "#trip-map" },
   { label: "Spots", href: "#spots" },
   { label: "Emergency", href: "#emergency" },
 ];

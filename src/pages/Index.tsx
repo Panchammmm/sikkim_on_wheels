@@ -4,7 +4,7 @@ import TripOverview from "@/components/trip/TripOverview";
 import ItinerarySection from "@/components/trip/ItinerarySection";
 import ElevationChart from "@/components/trip/ElevationChart";
 import WeatherDashboard from "@/components/trip/WeatherDashboard";
-import SightseeingMap from "@/components/trip/SightseeingMap";
+import TripMap from "@/components/trip/TripMap";
 import DocumentsSection from "@/components/trip/DocumentsSection";
 import MustVisitSpots from "@/components/trip/MustVisitSpots";
 import EmergencyContacts from "@/components/trip/EmergencyContacts";
@@ -19,7 +19,7 @@ export default function Index() {
       <ItinerarySection />
       <ElevationChart />
       <WeatherDashboard />
-      <SightseeingMap />
+      <TripMap />
       <DocumentsSection />
       <MustVisitSpots />
       <EmergencyContacts />

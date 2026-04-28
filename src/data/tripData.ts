@@ -26,12 +26,33 @@ export interface DayItinerary {
   };
 }
 
+export type DayStop = {
+  lat: number;
+  lng: number;
+  label: string;
+};
+
+export type DayMeta = {
+  color: string;
+  stops: DayStop[];
+};
+
+export type LatLng = {
+  lat: number;
+  lng: number;
+};
+
+export type DifficultyConfig = Record<
+  DayItinerary["difficulty"],
+  { label: string; color: string }
+>;
+
 export const itinerary: DayItinerary[] = [
   {
     day: 1,
     from: "NJP Station",
     to: "Rinchenpong",
-    distance: 120,
+    distance: 125,
     travelTime: "5-6 hours",
     elevation: 1700,
     elevationGain: "+1550m",
