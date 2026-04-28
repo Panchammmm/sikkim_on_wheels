@@ -22,13 +22,13 @@ const AnimatedNumber = ({ value }: { value: number }) => {
   const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    const controls = animate(display, value, {
+    const controls = animate(0, value, {
       duration: 0.6,
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
 
     return () => controls.stop();
-  }, [value]); // only depend on value
+  }, [value]);
 
   return <span>{display}</span>;
 };
@@ -121,12 +121,11 @@ export default function WeatherDashboard() {
         {/* Weather Cards */}
         {!isLoading && !isError && (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            
             {data.map((loc, i) => {
-              if (!loc.current) return null;
-
               return (
                 <div
-                  key={`${loc.location}-${i}`}
+                  key={loc.location}
                   className={`overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl ${isVisible ? "animate-fade-in-up" : "opacity-0"
                     }`}
                   style={{
@@ -186,8 +185,8 @@ export default function WeatherDashboard() {
 
                         <span
                           className={`flex items-center gap-1 text-xs ${d.rain > 60
-                              ? "text-blue-500 font-semibold"
-                              : "text-muted-foreground"
+                            ? "text-blue-500 font-semibold"
+                            : "text-muted-foreground"
                             }`}
                         >
                           <Cloud className="h-3 w-3" />

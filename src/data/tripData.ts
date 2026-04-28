@@ -26,6 +26,27 @@ export interface DayItinerary {
   };
 }
 
+export type WeatherData = {
+  location: string;
+  lat: number;
+  lon: number;
+  current?: {
+    temp: number;
+    humidity: number;
+    windSpeed: number;
+    condition: string;
+    icon: string;
+  };
+  daily: {
+    date: string;
+    high: number;
+    low: number;
+    condition: string;
+    rain: number;
+    icon: string;
+  }[];
+}
+
 export type DayStop = {
   lat: number;
   lng: number;
