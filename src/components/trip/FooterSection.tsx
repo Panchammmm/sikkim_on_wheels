@@ -1,12 +1,19 @@
-import { Heart, MapPin, Calendar, Instagram, Github } from "lucide-react";
-
-/* ------------------ MAIN ------------------ */
+import { Heart, MapPin, Calendar } from "lucide-react";
 
 export default function FooterSection() {
   return (
     <footer className="relative border-t border-border bg-card px-4 py-12">
       <div className="mx-auto max-w-5xl text-center">
         
+        {/* Logo */}
+        <div className="flex justify-center mb-3">
+          <img
+            src="/logo.jpg"
+            alt="Sikkim on Wheels Logo"
+            className="h-12 w-auto object-contain"
+          />
+        </div>
+
         {/* Title */}
         <h2 className="font-display text-2xl tracking-wider text-foreground">
           SIKKIM ON{" "}

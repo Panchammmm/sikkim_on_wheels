@@ -203,7 +203,7 @@ const TripMap: React.FC = () => {
 
   // ── Render 
   return (
-    <section ref={sectionRef} id="trip-map" className="py-10 sm:py-16">
+    <section ref={sectionRef} id="trip-map" className="py-10 sm:py-16 bg-background">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
 
         {/* Heading */}
