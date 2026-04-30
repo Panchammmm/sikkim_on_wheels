@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+div::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   :root {
     --background: 210 20% 98%;
