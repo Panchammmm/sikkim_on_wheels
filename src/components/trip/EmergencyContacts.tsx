@@ -1,6 +1,6 @@
-import { Phone, Shield, Heart, Wrench, MapPin, AlertTriangle } from "lucide-react";
-import { emergencyContacts } from "@/data/tripData";
+import { Phone, Shield, Heart, Wrench, AlertTriangle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { emergencyContacts } from "@/data/tripData";
 import { useEffect, useState } from "react";
 
 /* CONFIG */

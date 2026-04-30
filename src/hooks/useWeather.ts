@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { WeatherData } from "@/data/tripData";
+import type { WeatherData } from "@/data/types";
 
 /* 🌐 API TYPES */
 type OpenMeteoResponse = {

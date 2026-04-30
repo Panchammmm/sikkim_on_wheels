@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { itinerary, RouteCache, SidebarTab } from "@/data/tripData";
+import type { RouteCache, SidebarTab } from "@/data/types";
+import { itinerary } from "@/data/tripData";
 import {
   drawRoutePolylines,
   fetchRoadRoute,

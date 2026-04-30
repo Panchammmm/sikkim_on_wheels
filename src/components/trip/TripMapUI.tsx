@@ -1,5 +1,6 @@
 import React, { RefObject } from "react";
-import { DayItinerary, DifficultyConfig, SidebarTab, DayMeta } from "@/data/tripData";
+import type { DayItinerary, DayMeta, SidebarTab } from "@/data/types";
+import { DifficultyConfig } from "@/data/tripData";
 import { getDayMeta } from "@/hooks/mapUtils";
 
 // Primitive sub-components

@@ -1,9 +1,7 @@
 import { Star, Clock, Sparkles, MapPin } from "lucide-react";
-import { mustVisitSpots } from "@/data/tripData";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-// ── Types
-type Spot = (typeof mustVisitSpots)[number];
+import { mustVisitSpots } from "@/data/tripData";
+import type { Spot } from "@/data/types";
 
 type SpotCardProps = {
   spot: Spot;
@@ -11,7 +9,6 @@ type SpotCardProps = {
   isVisible: boolean;
 };
 
-// ── SpotCard 
 function SpotCard({ spot, index, isVisible }: SpotCardProps) {
   return (
     <div
@@ -20,8 +17,6 @@ function SpotCard({ spot, index, isVisible }: SpotCardProps) {
       ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
       hover:-translate-y-2 hover:shadow-2xl`}
       style={{
-        // Only apply stagger delay during the entry animation.
-        // Once visible, delay is cleared so hover responds instantly.
         transitionDelay: isVisible ? `${index * 100}ms` : "0ms",
       }}
     >
@@ -30,7 +25,6 @@ function SpotCard({ spot, index, isVisible }: SpotCardProps) {
         <img
           src={spot.image}
           alt={`View of ${spot.name}`}
-          // Lazy-load images below the fold to avoid blocking bandwidth
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -39,7 +33,8 @@ function SpotCard({ spot, index, isVisible }: SpotCardProps) {
 
         {spot.hidden && (
           <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-sunset-gold/20 px-2.5 py-1 text-[10px] font-semibold text-sunset-gold backdrop-blur">
-            <Sparkles className="h-3 w-3" aria-hidden="true" /> Hidden Gem
+            <Sparkles className="h-3 w-3" aria-hidden="true" />
+            Hidden Gem
           </span>
         )}
 
@@ -58,7 +53,9 @@ function SpotCard({ spot, index, isVisible }: SpotCardProps) {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-sm text-sunset">
               <Star className="h-4 w-4 fill-sunset" aria-hidden="true" />
-              <span aria-label={`Rating: ${spot.rating} out of 5`}>{spot.rating}</span>
+              <span aria-label={`Rating: ${spot.rating} out of 5`}>
+                {spot.rating}
+              </span>
             </span>
 
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -68,10 +65,11 @@ function SpotCard({ spot, index, isVisible }: SpotCardProps) {
           </div>
 
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.name)}`}
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              spot.name
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
-            // Descriptive label so screen readers announce the destination, not just "Map"
             aria-label={`Open ${spot.name} in Google Maps`}
             className="flex items-center gap-1 rounded-full border border-border px-3 py-1 text-xs text-foreground transition hover:bg-muted"
           >
@@ -91,7 +89,6 @@ export default function MustVisitSpots() {
   return (
     <section ref={ref} id="spots" className="section-padding bg-muted/50">
       <div className="mx-auto max-w-6xl px-4">
-
         {/* Heading */}
         <h2
           className={`text-center font-display text-4xl tracking-wider text-foreground sm:text-5xl
@@ -116,14 +113,13 @@ export default function MustVisitSpots() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {mustVisitSpots.map((spot, i) => (
             <SpotCard
-              key={spot.name}
+              key={spot.id}
               spot={spot}
               index={i}
               isVisible={isVisible}
             />
           ))}
         </div>
-
       </div>
     </section>
   );

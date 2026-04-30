@@ -1,4 +1,5 @@
-import { itinerary, DayMeta, DayStop, LatLng } from "@/data/tripData";
+import { itinerary } from "@/data/tripData";
+import type { DayMeta, DayStop, LatLng } from "@/data/types";
 
 // Per-day map config
 export const DAY_META_MAP: Record<number, DayMeta> = {

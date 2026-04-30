@@ -1,67 +1,6 @@
-export const TRIP_START_DATE = new Date("2026-06-18T06:00:00");
+import type { DayItinerary, Spot } from "@/data/types";
 
-export interface DayItinerary {
-  day: number;
-  from: string;
-  to: string;
-  distance: number;
-  travelTime: string;
-  elevation: number;
-  elevationGain: string;
-  difficulty: "easy" | "moderate" | "challenging";
-  route: string;
-  accommodation: string;
-  accommodationAddress: string;
-  highlights: string[];
-  foodSpots: string[];
-  tips: string[];
-
-  // Weather now comes ONLY from API
-  weather?: {
-    high: number;
-    condition: string;
-    icon: string;
-    windSpeed: number;
-    feelsLike: number;
-  };
-}
-
-export type WeatherData = {
-  location: string;
-  lat: number;
-  lon: number;
-  current?: {
-    temp: number;
-    humidity: number;
-    windSpeed: number;
-    condition: string;
-    icon: string;
-  };
-  daily: {
-    date: string;
-    high: number;
-    low: number;
-    condition: string;
-    rain: number;
-    icon: string;
-  }[];
-}
-
-export type DayStop = {
-  lat: number;
-  lng: number;
-  label: string;
-};
-
-export type DayMeta = {
-  color: string;
-  stops: DayStop[];
-};
-
-export type LatLng = {
-  lat: number;
-  lng: number;
-};
+export const TRIP_START_DATE = new Date("2026-06-18T06:00:00+05:30");
 
 export const DifficultyConfig: Record<
   DayItinerary["difficulty"],
@@ -71,11 +10,6 @@ export const DifficultyConfig: Record<
   moderate: { label: "Moderate", color: "#F59E0B" },
   challenging: { label: "Challenging", color: "#EF4444" },
 };
-
-export type RouteCache = Record<number, LatLng[] | "fallback">;
-
-// Sidebar content tabs
-export type SidebarTab = "highlights" | "food" | "tips";
 
 export const itinerary: DayItinerary[] = [
   {
@@ -152,7 +86,7 @@ export const itinerary: DayItinerary[] = [
       "Helipad Ground's 360° Kanchenjunga viewpoint",
       "Skywalk at Pelling",
       "Sangachoeling Monastery near Skywalk",
-      "Rimbi Waterfall & Orange Garden - riverside gardens, ~12 km from Pelling",
+      "Rimbi Waterfall & Orange Garden",
     ],
     foodSpots: [
       "Hotel Garuda Restaurant - local Sikkimese thali",
@@ -170,8 +104,8 @@ export const itinerary: DayItinerary[] = [
     day: 4,
     from: "Pelling",
     to: "Namchi",
-    distance: 72,
-    travelTime: "5-6 hours",
+    distance: 101,
+    travelTime: "6-7 hours",
     elevation: 1675,
     elevationGain: "-475m",
     difficulty: "moderate",
@@ -228,44 +162,6 @@ export const itinerary: DayItinerary[] = [
   },
 ];
 
-export const packingList = {
-  "Riding Gear": [
-    "Full-face helmet (ISI certified)",
-    "Riding jacket with armor",
-    "Riding gloves (waterproof)",
-    "Riding boots (ankle-high)",
-    "Knee guards",
-    "Rain suit (jacket + pants)",
-  ],
-  "Clothing": [
-    "Thermal innerwear (2 sets)",
-    "Fleece jacket",
-    "Waterproof windcheater",
-    "Quick-dry t-shirts (3-4)",
-    "Cargo pants (2)",
-    "Warm socks (4 pairs)",
-    "Beanie / warm cap",
-  ],
-  "Essentials": [
-    "First aid kit",
-    "Altitude sickness medicine (Diamox)",
-    "Sunscreen SPF 50+",
-    "Lip balm with SPF",
-    "Electrolyte sachets",
-    "Pain relief spray",
-    "Personal medications",
-  ],
-  "Gear & Electronics": [
-    "Action camera / GoPro",
-    "Phone mount for bike",
-    "Power bank (20000mAh)",
-    "Charging cables",
-    "Waterproof bags / dry sacks",
-    "Bungee cords for luggage",
-    "Toolkit for bike",
-  ],
-};
-
 export const emergencyContacts = [
   { name: "Sikkim Police Helpline", number: "100", type: "police" },
   { name: "Ambulance Service", number: "102", type: "medical" },
@@ -275,78 +171,91 @@ export const emergencyContacts = [
   { name: "BSNL Customer Care", number: "1500", type: "general" },
 ];
 
-export const budgetCategories = [
-  { category: "Fuel", estimated: 3500 },
-  { category: "Food", estimated: 5000 },
-  { category: "Accommodation", estimated: 8000 },
-  { category: "Permits", estimated: 500 },
-  { category: "Miscellaneous", estimated: 3000 },
-];
-
-export const mustVisitSpots = [
+export const mustVisitSpots: Spot[] = [
   {
+    id: "pemayangtse-monastery",
     name: "Pemayangtse Monastery",
     rating: 4.8,
-    time: "1-2 hours",
-    description: "One of the oldest monasteries in Sikkim with stunning Kanchenjunga views",
+    time: "1–2 hours",
+    description:
+      "One of the oldest monasteries in Sikkim, offering serene surroundings and stunning views of Kanchenjunga.",
     hidden: false,
-    image: "https://s7ap1.scene7.com/is/image/incredibleindia/spiritual-spots-in-pelling-popular?qlt=82&ts=1726655959297",
+    image:
+      "https://s7ap1.scene7.com/is/image/incredibleindia/spiritual-spots-in-pelling-popular?qlt=82&ts=1726655959297",
   },
   {
+    id: "khecheopalri-lake",
     name: "Khecheopalri Lake",
     rating: 4.6,
     time: "45 min",
-    description: "Sacred wishing lake surrounded by forest and prayer flags",
+    description:
+      "A sacred wishing lake surrounded by dense forest and prayer flags, known for its peaceful atmosphere.",
     hidden: true,
-    image: "https://edvanceupsc.com/wp-content/uploads/2021/12/maxresdefault.jpg",
+    image:
+      "https://edvanceupsc.com/wp-content/uploads/2021/12/maxresdefault.jpg",
   },
   {
+    id: "rabdentse-ruins",
     name: "Rabdentse Ruins",
     rating: 4.4,
     time: "1 hour",
-    description: "Ancient ruins of Sikkim’s second capital with scenic forest trails",
+    description:
+      "Historic ruins of Sikkim’s second capital, set amidst forest trails with scenic viewpoints.",
     hidden: false,
-    image: "https://www.discoverimages.com/p/251/india-sikkim-pelling-rabdentse-ruins-19483787.jpg.webp",
+    image:
+      "https://www.discoverimages.com/p/251/india-sikkim-pelling-rabdentse-ruins-19483787.jpg.webp",
   },
   {
+    id: "buddha-park-ravangla",
     name: "Buddha Park Ravangla",
     rating: 4.8,
     time: "1.5 hours",
-    description: "Massive Buddha statue with panoramic Himalayan views",
+    description:
+      "Home to a towering Buddha statue with breathtaking panoramic views of the surrounding mountains.",
     hidden: false,
     image: "https://miro.medium.com/v2/0*QVORolmzs-afKhxc.",
   },
   {
+    id: "temi-tea-garden",
     name: "Temi Tea Garden",
     rating: 4.5,
     time: "1 hour",
-    description: "Lush tea estate offering beautiful rolling green landscapes",
+    description:
+      "Sikkim’s only tea estate, featuring rolling green hills and some of the finest organic tea in India.",
     hidden: true,
     image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/474878305_122214932990172200_8485119097410773648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=7b2446&_nc_ohc=PNaZbHZ_6LsQ7kNvwEOe7nw&_nc_oc=AdrzIXhAyW1aFygEOBCHCsd94DtF5mP7YhJ3Ri00Rbu_zwAc-kUOZr8a2RmrDUzsrHg&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=LP4U8QN_vItzg7wU5J7Akg&_nc_ss=7a389&oh=00_Af0U2j9K0lZPN79DnzqFJbuIZDmewXy51f4F0nItGw8ELg&oe=69EE5D5F",
   },
   {
+    id: "pelling-skywalk",
     name: "Pelling Skywalk",
     rating: 4.3,
     time: "30 min",
-    description: "Glass skywalk offering breathtaking valley views",
+    description:
+      "A glass skywalk offering thrilling views of the valley and surrounding Himalayan landscape.",
     hidden: false,
     image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/605507064_862512436530082_2835745525312044334_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=7b2446&_nc_ohc=623lNfgN_TkQ7kNvwGJBmnO&_nc_oc=AdoqQlmaSsXnPa5GK-xa7bGfqTpeyBSjDXfhLiD-HOTQb_ZN3RjWJTy1dCkTIoKNVU8&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=w32hhH_4HL6qBAszYZGzqA&_nc_ss=7a389&oh=00_Af0bb95dPHy05ogeIRdeAkJc6zCNu5K4GfJH4tUmz7Uttg&oe=69EE338B",
   },
   {
-    name: "Char Dham Namchi",
+    id: "Siddheshwar-Char-Dham",
+    name: "Siddheshwar Char Dham",
     rating: 4.6,
     time: "2 hours",
-    description: "Pilgrimage site with giant Shiva statue and replicas of Char Dham",
+    description:
+      "A major pilgrimage site featuring a giant Shiva statue and replicas of the Char Dham temples.",
     hidden: false,
-    image: "https://curlytales.com/wp-content/uploads/2020/10/1162cba28418a3eaa344dd62176ffa08-1.jpg",
+    image:
+      "https://curlytales.com/wp-content/uploads/2020/10/1162cba28418a3eaa344dd62176ffa08-1.jpg",
   },
   {
-    name: "Samdruptse Hill",
+    id: "samdruptse",
+    name: "Samdruptse",
     rating: 4.5,
     time: "1 hour",
-    description: "Hilltop with giant Guru Padmasambhava statue",
+    description:
+      "Hilltop viewpoint featuring a massive statue of Guru Padmasambhava and sweeping valley views.",
     hidden: true,
-    image: "https://raw.githubusercontent.com/Panchammmm/sikkim_on_wheels/ea2aafc78a314ad28c2cfc1386bfe0cb1387d0f6/src/assets/spot.jpg",
+    image:
+      "https://raw.githubusercontent.com/Panchammmm/sikkim_on_wheels/ea2aafc78a314ad28c2cfc1386bfe0cb1387d0f6/src/assets/spot.jpg",
   },
 ];
 

@@ -10,9 +10,9 @@ import {
   Home,
   Route,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import type { DayItinerary } from "@/data/tripData";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { motion, AnimatePresence } from "framer-motion";
+import type { DayItinerary } from "@/data/types";
 
 const difficultyColors: Record<DayItinerary["difficulty"], string> = {
   easy: "bg-accent text-accent-foreground",
