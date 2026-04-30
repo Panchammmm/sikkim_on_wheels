@@ -1,4 +1,5 @@
 import { Heart, MapPin, Calendar } from "lucide-react";
+import PageLogo from "../../../logo.jpg";
 
 export default function FooterSection() {
   return (
@@ -8,7 +9,7 @@ export default function FooterSection() {
         {/* Logo */}
         <div className="flex justify-center mb-3">
           <img
-            src="/logo.jpg"
+            src={PageLogo}
             alt="Sikkim on Wheels Logo"
             className="h-12 w-auto object-contain"
           />
