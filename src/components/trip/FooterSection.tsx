@@ -45,7 +45,7 @@ export default function FooterSection() {
 
         {/* Bottom Note */}
         <p className="text-[10px] text-muted-foreground">
-          © 2026 Sikkim on Wheels · Built for adventure 🏍️
+          © 2026 Sikkim on Wheels · Built for adventure 🏍️🚩
         </p>
       </div>
     </footer>

@@ -146,7 +146,7 @@ export default function WeatherDashboard() {
         </p>
 
         {/* 🔄 Refresh Button */}
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center gap-2">
           <button
             onClick={() => refetch()}
             disabled={isFetching}
@@ -156,7 +156,7 @@ export default function WeatherDashboard() {
             {isFetching ? "Refreshing…" : "Refresh"}
           </button>
           {lastUpdated && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground my-auto">
               Updated at {formatTime(lastUpdated)}
             </span>
           )}

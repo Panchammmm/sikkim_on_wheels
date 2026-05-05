@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { DayItinerary } from "@/data/types";
 
 const difficultyColors: Record<DayItinerary["difficulty"], string> = {
-  easy: "bg-accent text-accent-foreground",
+  easy: "bg-accent/85 text-accent-foreground",
   moderate: "bg-sunset/20 text-sunset",
   challenging: "bg-destructive/20 text-destructive",
 };

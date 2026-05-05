@@ -3,6 +3,26 @@ import type { DayItinerary, DayMeta, SidebarTab } from "@/data/types";
 import { DifficultyConfig } from "@/data/tripData";
 import { getDayMeta } from "@/hooks/mapUtils";
 
+// ── Helpers
+
+/** Builds a Google Maps directions URL for all stops in a day. */
+function buildGoogleMapsUrl(stops: DayMeta["stops"]): string {
+    if (stops.length < 2) return "#";
+    const origin = `${stops[0].lat},${stops[0].lng}`;
+    const destination = `${stops[stops.length - 1].lat},${stops[stops.length - 1].lng}`;
+    const waypoints = stops
+        .slice(1, -1)
+        .map((s) => `${s.lat},${s.lng}`)
+        .join("|");
+    return (
+        `https://www.google.com/maps/dir/?api=1` +
+        `&origin=${encodeURIComponent(origin)}` +
+        `&destination=${encodeURIComponent(destination)}` +
+        (waypoints ? `&waypoints=${encodeURIComponent(waypoints)}` : "") +
+        `&travelmode=driving`
+    );
+}
+
 // Primitive sub-components
 export const DayTab: React.FC<{
     day: DayItinerary;
@@ -16,12 +36,11 @@ export const DayTab: React.FC<{
             onClick={onClick}
             role="tab"
             aria-selected={active}
-            // On mobile: smaller padding, still readable
             className="rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[12px] sm:text-[13px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 border-2"
             style={{
                 borderColor: active ? color : "transparent",
-                background: active ? color : "rgba(255,255,255,0.07)",
-                color: active ? "#fff" : "rgba(255,255,255,0.55)",
+                background: active ? color : "rgba(0,0,0,0.06)",
+                color: active ? "#fff" : "rgba(0,0,0,0.45)",
             }}
         >
             Day {day.day}
@@ -32,11 +51,10 @@ export const DayTab: React.FC<{
 export const StatPill: React.FC<{
     icon: string; value: string; label: string;
 }> = ({ icon, value, label }) => (
-    // On mobile: slightly smaller min-width so all three fit in a row
-    <div className="flex flex-col items-center gap-0.5 bg-white/[0.06] rounded-xl px-2.5 py-2 sm:px-3.5 sm:py-2.5 min-w-[60px] sm:min-w-[72px] flex-1">
+    <div className="flex flex-col items-center gap-0.5 bg-slate-100 rounded-xl px-2.5 py-2 sm:px-3.5 sm:py-2.5 min-w-[60px] sm:min-w-[72px] flex-1">
         <span className="text-base sm:text-lg" aria-hidden="true">{icon}</span>
-        <span className="text-white font-bold text-[12px] sm:text-[13px] text-center">{value}</span>
-        <span className="text-white/40 text-[9px] sm:text-[10px] uppercase tracking-widest text-center">{label}</span>
+        <span className="text-slate-800 font-bold text-[12px] sm:text-[13px] text-center">{value}</span>
+        <span className="text-slate-400 text-[9px] sm:text-[10px] uppercase tracking-widest text-center">{label}</span>
     </div>
 );
 
@@ -55,7 +73,7 @@ export const Section: React.FC<{
 );
 
 export const ListItem: React.FC<{ text: string }> = ({ text }) => (
-    <p className="text-white/75 text-[13px] leading-relaxed m-0">{text}</p>
+    <p className="text-slate-600 text-[13px] leading-relaxed m-0">{text}</p>
 );
 
 // MapPanel — the map canvas + loading overlay
@@ -70,7 +88,6 @@ export type MapPanelProps = {
 export const MapPanel: React.FC<MapPanelProps> = ({
     mapRef, mapLoaded, accentColor, dayLabel,
 }) => (
-    // Mobile: fixed height so the map doesn't collapse. Desktop: flex-1 fills the row.
     <div className="relative min-w-0 h-[260px] sm:h-auto sm:flex-1">
         <div
             ref={mapRef}
@@ -80,7 +97,7 @@ export const MapPanel: React.FC<MapPanelProps> = ({
         />
         {!mapLoaded && (
             <div
-                className="absolute inset-0 bg-[#0d1117] flex flex-col items-center justify-center gap-3.5"
+                className="absolute inset-0 bg-slate-100 flex flex-col items-center justify-center gap-3.5"
                 role="status"
                 aria-label="Loading map"
             >
@@ -89,13 +106,14 @@ export const MapPanel: React.FC<MapPanelProps> = ({
                     style={{ borderColor: `${accentColor} transparent transparent transparent` }}
                     aria-hidden="true"
                 />
-                <span className="text-white/40 text-xs">Loading map…</span>
+                <span className="text-slate-400 text-xs">Loading map…</span>
             </div>
         )}
     </div>
 );
 
-// Sidebar — stops, stats, difficulty, content tabs
+// Sidebar — stops, stats, route button, difficulty, content tabs
+
 export type SidebarProps = {
     day: DayItinerary;
     meta: DayMeta;
@@ -105,22 +123,22 @@ export type SidebarProps = {
 
 export const Sidebar: React.FC<SidebarProps> = ({ day, meta, activeTab, onTabChange }) => {
     const difficultyConfig = DifficultyConfig[day.difficulty];
+    const mapsUrl = buildGoogleMapsUrl(meta.stops);
 
     return (
-        // Mobile: full width, no left border. Desktop: fixed 300px, left border.
-        <div className="w-full sm:w-[300px] sm:shrink-0 bg-[#141820] overflow-y-auto sm:border-l border-t sm:border-t-0 border-white/[0.06] flex flex-col">
+        <div className="w-full sm:w-[300px] sm:shrink-0 bg-white overflow-y-auto sm:border-l border-t sm:border-t-0 border-black/[0.08] flex flex-col">
 
-            {/* Route stops — horizontal scroll on very small screens */}
-            <div className="p-4 border-b border-white/[0.06]">
-                <p className="text-[10px] text-white/30 uppercase tracking-widest mb-3 m-0">Route Stops</p>
+            {/* Route stops */}
+            <div className="p-4 border-b border-black/[0.06]">
+                <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-3 m-0">Route Stops</p>
 
-                {/* Mobile: horizontal pill strip. Desktop: vertical list with connector */}
+                {/* Mobile: horizontal pill strip */}
                 <div className="flex sm:hidden gap-2 overflow-x-auto pb-1 -mx-1 px-1">
                     {meta.stops.map((stop, i) => (
                         <div
                             key={i}
-                            className="flex items-center gap-1.5 shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium text-white/70 border border-white/10"
-                            style={{ background: `${meta.color}18` }}
+                            className="flex items-center gap-1.5 shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium text-slate-600 border border-black/10"
+                            style={{ background: `${meta.color}14` }}
                         >
                             <span
                                 className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold text-white shrink-0"
@@ -146,41 +164,56 @@ export const Sidebar: React.FC<SidebarProps> = ({ day, meta, activeTab, onTabCha
                                     {i + 1}
                                 </div>
                                 {i < meta.stops.length - 1 && (
-                                    <div className="w-[2px] h-5 my-0.5" style={{ background: `${meta.color}35` }} aria-hidden="true" />
+                                    <div
+                                        className="w-[2px] h-5 my-0.5"
+                                        style={{ background: `${meta.color}35` }}
+                                        aria-hidden="true"
+                                    />
                                 )}
                             </div>
-                            <span className="text-white/65 text-[13px] pt-[3px] pb-2">{stop.label}</span>
+                            <span className="text-slate-600 text-[13px] pt-[3px] pb-2">{stop.label}</span>
                         </li>
                     ))}
                 </ol>
             </div>
 
-            {/* Stats — always a row, flex-1 per pill so they share width */}
-            <div className="flex gap-2 p-3 border-b border-white/[0.06]">
+            {/* Stats row */}
+            <div className="flex gap-2 p-3 border-b border-black/[0.06]">
                 <StatPill icon="🏍️" value={`${day.distance}km`} label="Distance" />
-                <StatPill icon="⏱️" value={day.travelTime} label="RideTime" />
+                <StatPill icon="⏱️" value={`${day.travelTime.replace(/[^0-9\-–]/g, "")}hr`} label="RideTime" />
                 <StatPill icon="⛰️" value={`${day.elevation}m`} label="Elevation" />
             </div>
 
-            {/* Difficulty + Stay */}
-            <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-white/[0.06]">
-                <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: difficultyConfig.color }} aria-hidden="true" />
-                    <span
-                        className="text-[11px] font-bold"
-                        style={{ color: difficultyConfig.color }}
-                        aria-label={`Difficulty: ${difficultyConfig.label}`}
+            {/* Google Maps Route Button */}
+            <div className="px-4 py-3 border-b border-black/[0.06]">
+                <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-[12px] font-bold tracking-wide text-white transition-all duration-200 hover:opacity-90 active:scale-[0.97] select-none"
+                    style={{ background: meta.color }}
+                    aria-label={`Open Day ${day.day} route in Google Maps`}
+                >
+                    {/* Navigation / send icon */}
+                    <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
                     >
-                        {difficultyConfig.label}
-                    </span>
-                </div>
-                <p className="text-white/60 text-xs text-right max-w-[160px] leading-snug m-0">
-                    🏠 {day.accommodation}
-                </p>
+                        <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                    </svg>
+                    Open Route in Google Maps
+                </a>
             </div>
 
             {/* Content tabs */}
-            <div role="tablist" aria-label="Day details" className="flex border-b border-white/[0.06]">
+            <div role="tablist" aria-label="Day details" className="flex border-b border-black/[0.06]">
                 {(["highlights", "food", "tips"] as const).map((tab) => (
                     <button
                         key={tab}
@@ -189,7 +222,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ day, meta, activeTab, onTabCha
                         onClick={() => onTabChange(tab)}
                         className="flex-1 py-3 px-1 bg-transparent cursor-pointer text-[10px] font-bold uppercase tracking-widest transition-all duration-200 border-0 border-b-2"
                         style={{
-                            color: activeTab === tab ? meta.color : "rgba(255,255,255,0.3)",
+                            color: activeTab === tab ? meta.color : "rgba(0,0,0,0.35)",
                             borderBottomColor: activeTab === tab ? meta.color : "transparent",
                         }}
                     >

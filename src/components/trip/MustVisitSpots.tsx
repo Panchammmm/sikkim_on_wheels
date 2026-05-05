@@ -26,7 +26,7 @@ function SpotCard({ spot }: { spot: Spot }) {
           </span>
         )}
 
-        <h3 className="absolute bottom-3 left-3 right-3 text-lg font-semibold text-white leading-tight">
+        <h3 className="absolute bottom-3 left-4 right-3 text-lg text-white leading-tight">
           {spot.name}
         </h3>
       </div>
@@ -211,7 +211,7 @@ export default function MustVisitSpots() {
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
-            className={`flex gap-5 sm:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2
+            className={`flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-2
               snap-x snap-mandatory
               ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
           >

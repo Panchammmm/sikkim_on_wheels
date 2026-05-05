@@ -1,5 +1,14 @@
 import type { DayItinerary, Spot } from "@/data/types";
 
+import SamdruptseImg from "@/assets/samdruptse.jpg";
+import CharDamImg from "@/assets/CharDam.jpg";
+import BuddhaParkImg from "@/assets/BuddhaPark.webp";
+import PemayangtseImg from "@/assets/Pemayangtse.jpeg";
+import KhecheopalriImg from "@/assets/Khecheopalri.jpg";
+import RabdentseImg from "@/assets/Rabdentse.webp";
+import PellingSkywalkImg from "@/assets/PellingSkywalk.png";
+import TemiTeaGardenImg from "@/assets/TemiTeaGarden.png";
+
 export const TRIP_START_DATE = new Date("2026-06-18T06:00:00+05:30");
 
 export const DifficultyConfig: Record<
@@ -176,86 +185,81 @@ export const mustVisitSpots: Spot[] = [
     id: "pemayangtse-monastery",
     name: "Pemayangtse Monastery",
     rating: 4.8,
-    time: "1–2 hours",
+    time: "30 mins",
     description:
       "One of the oldest monasteries in Sikkim, offering serene surroundings and stunning views of Kanchenjunga.",
     hidden: false,
-    image:
-      "https://s7ap1.scene7.com/is/image/incredibleindia/spiritual-spots-in-pelling-popular?qlt=82&ts=1726655959297",
+    image: PemayangtseImg,
   },
   {
     id: "khecheopalri-lake",
     name: "Khecheopalri Lake",
     rating: 4.6,
-    time: "45 min",
+    time: "1 hour",
     description:
-      "A sacred wishing lake surrounded by dense forest and prayer flags, known for its peaceful atmosphere.",
+      "A sacred wishing lake surrounded by dense forest and prayer flags, known for its peaceful atmosphere and trek.",
     hidden: true,
-    image:
-      "https://edvanceupsc.com/wp-content/uploads/2021/12/maxresdefault.jpg",
+    image: KhecheopalriImg,
   },
   {
     id: "rabdentse-ruins",
     name: "Rabdentse Ruins",
     rating: 4.4,
-    time: "1 hour",
+    time: "40 mins",
     description:
       "Historic ruins of Sikkim’s second capital, set amidst forest trails with scenic viewpoints.",
     hidden: false,
-    image:
-      "https://www.discoverimages.com/p/251/india-sikkim-pelling-rabdentse-ruins-19483787.jpg.webp",
+    image: RabdentseImg,
   },
   {
     id: "buddha-park-ravangla",
     name: "Buddha Park Ravangla",
     rating: 4.8,
-    time: "1.5 hours",
+    time: "45 mins",
     description:
       "Home to a towering Buddha statue with breathtaking panoramic views of the surrounding mountains.",
     hidden: false,
-    image: "https://miro.medium.com/v2/0*QVORolmzs-afKhxc.",
+    image: BuddhaParkImg,
   },
   {
     id: "temi-tea-garden",
     name: "Temi Tea Garden",
     rating: 4.5,
-    time: "1 hour",
+    time: "20 mins",
     description:
       "Sikkim’s only tea estate, featuring rolling green hills and some of the finest organic tea in India.",
     hidden: true,
-    image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/474878305_122214932990172200_8485119097410773648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=7b2446&_nc_ohc=PNaZbHZ_6LsQ7kNvwEOe7nw&_nc_oc=AdrzIXhAyW1aFygEOBCHCsd94DtF5mP7YhJ3Ri00Rbu_zwAc-kUOZr8a2RmrDUzsrHg&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=LP4U8QN_vItzg7wU5J7Akg&_nc_ss=7a389&oh=00_Af0U2j9K0lZPN79DnzqFJbuIZDmewXy51f4F0nItGw8ELg&oe=69EE5D5F",
+    image: TemiTeaGardenImg,
   },
   {
     id: "pelling-skywalk",
     name: "Pelling Skywalk",
     rating: 4.3,
-    time: "30 min",
+    time: "1 hour",
     description:
       "A glass skywalk offering thrilling views of the valley and surrounding Himalayan landscape.",
     hidden: false,
-    image: "https://scontent.fccu1-2.fna.fbcdn.net/v/t39.30808-6/605507064_862512436530082_2835745525312044334_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=7b2446&_nc_ohc=623lNfgN_TkQ7kNvwGJBmnO&_nc_oc=AdoqQlmaSsXnPa5GK-xa7bGfqTpeyBSjDXfhLiD-HOTQb_ZN3RjWJTy1dCkTIoKNVU8&_nc_zt=23&_nc_ht=scontent.fccu1-2.fna&_nc_gid=w32hhH_4HL6qBAszYZGzqA&_nc_ss=7a389&oh=00_Af0bb95dPHy05ogeIRdeAkJc6zCNu5K4GfJH4tUmz7Uttg&oe=69EE338B",
+    image: PellingSkywalkImg,
   },
   {
     id: "Siddheshwar-Char-Dham",
     name: "Siddheshwar Char Dham",
     rating: 4.6,
-    time: "2 hours",
+    time: "1 hour",
     description:
       "A major pilgrimage site featuring a giant Shiva statue and replicas of the Char Dham temples.",
     hidden: false,
-    image:
-      "https://curlytales.com/wp-content/uploads/2020/10/1162cba28418a3eaa344dd62176ffa08-1.jpg",
+    image: CharDamImg,
   },
   {
     id: "samdruptse",
     name: "Samdruptse",
     rating: 4.5,
-    time: "1 hour",
+    time: "20 mins",
     description:
       "Hilltop viewpoint featuring a massive statue of Guru Padmasambhava and sweeping valley views.",
     hidden: true,
-    image:
-      "https://raw.githubusercontent.com/Panchammmm/sikkim_on_wheels/ea2aafc78a314ad28c2cfc1386bfe0cb1387d0f6/src/assets/spot.jpg",
+    image: SamdruptseImg,
   },
 ];
 

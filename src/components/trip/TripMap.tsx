@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import type { RouteCache, SidebarTab } from "@/data/types";
+import type { DayItinerary, RouteCache, SidebarTab } from "@/data/types";
 import { itinerary } from "@/data/tripData";
 import {
   drawRoutePolylines,
@@ -16,6 +16,12 @@ declare global {
     initMap: () => void;
   }
 }
+
+const difficultyColors: Record<DayItinerary["difficulty"], string> = {
+  easy: "bg-accent/85 text-accent-foreground",
+  moderate: "bg-sunset/20 text-sunset",
+  challenging: "bg-destructive/20 text-destructive",
+};
 
 // TripMap — orchestrates state, map lifecycle, and route rendering.
 // All visual output is delegated to MapPanel, Sidebar, and DayTab (TripMapUI).
@@ -47,7 +53,6 @@ const TripMap: React.FC = () => {
   const [routeLoading, setRouteLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<SidebarTab>("highlights");
   const { ref: sectionRef, isVisible } = useScrollAnimation(0.1);
-
 
   const day = itinerary[activeDay];
   const meta = getDayMeta(activeDay);
@@ -124,7 +129,7 @@ const TripMap: React.FC = () => {
     map.fitBounds(bounds, { top: 60, right: 40, bottom: 60, left: 40 });
   }, []);
 
-  // ── Render a day: cache check → fetch → draw 
+  // ── Render a day: cache check → fetch → draw
   const renderDay = useCallback(async (dayIndex: number) => {
     if (!mapInstanceRef.current || !window.google?.maps) return;
 
@@ -202,7 +207,7 @@ const TripMap: React.FC = () => {
     };
   }, [clearOverlays]);
 
-  // ── Render 
+  // ── Render
   return (
     <section ref={sectionRef} id="trip-map" className="py-10 sm:py-16 bg-background">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
@@ -212,18 +217,24 @@ const TripMap: React.FC = () => {
           <h1 className={`text-center font-display text-3xl sm:text-4xl lg:text-5xl tracking-wider text-foreground transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             Explore the <span className="text-gradient-sunset">Ride Route</span>
           </h1>
-          <p className={`mx-auto mt-3 sm:mt-4 max-w-xl text-center font-body text-muted-foreground text-sm sm:text-base transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`} style={{ transitionDelay: isVisible ? "150ms" : "0ms" }}>
+          <p
+            className={`mx-auto mt-3 sm:mt-4 max-w-xl text-center font-body text-muted-foreground text-sm sm:text-base transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            style={{ transitionDelay: isVisible ? "150ms" : "0ms" }}
+          >
             Follow your journey across Sikkim with live GPS tracking and real road routes.
           </p>
         </div>
 
         {/* Card */}
-        <div className={`bg-[#0d1117] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-white/[0.06] transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`} style={{ transitionDelay: isVisible ? "250ms" : "0ms" }}>
+        <div
+          className={`bg-white rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.12)] border border-black/[0.08] transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+          style={{ transitionDelay: isVisible ? "250ms" : "0ms" }}
+        >
 
           {/* Card header: day label + loading indicator + day tabs */}
           <div
-            className="border-b border-white/[0.08] px-4 sm:px-6 pt-4 sm:pt-5 pb-3 sm:pb-4"
-            style={{ background: `linear-gradient(135deg, ${meta.color}22 0%, transparent 60%)` }}
+            className="border-b border-black/[0.08] px-4 sm:px-6 pt-4 sm:pt-5 pb-3 sm:pb-4"
+            style={{ background: `linear-gradient(135deg, ${meta.color}18 0%, transparent 60%)` }}
           >
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <div
@@ -233,16 +244,17 @@ const TripMap: React.FC = () => {
               >
                 D{day.day}
               </div>
+
               <div className="flex-1 min-w-0">
-                {/* Truncate on very small screens */}
-                <p className="text-white font-bold text-sm sm:text-base tracking-wide m-0 truncate">
+                <p className="text-slate-800 font-bold text-sm sm:text-base tracking-wide m-0 truncate">
                   {day.from} → {day.to}
                 </p>
-                <p className="text-white/40 text-[11px] sm:text-xs mt-0.5 m-0 truncate">{day.route}</p>
+                <p className="text-slate-400 text-[11px] sm:text-xs mt-0.5 m-0 truncate">{day.route}</p>
               </div>
+
               {routeLoading && (
                 <div
-                  className="flex items-center gap-1.5 sm:gap-2 text-white/40 text-[11px] sm:text-xs shrink-0"
+                  className="flex items-center gap-1.5 sm:gap-2 text-slate-400 text-[11px] sm:text-xs shrink-0"
                   role="status"
                   aria-live="polite"
                   aria-label="Finding road route"
@@ -256,6 +268,12 @@ const TripMap: React.FC = () => {
                   <span className="hidden xs:inline">Finding road…</span>
                 </div>
               )}
+
+              <span
+                className={` hidden sm:flex rounded-full px-3 py-1 font-body text-[8px] sm:text-xs font-semibold capitalize ${difficultyColors[itinerary[activeDay].difficulty]}`}
+              >
+                {itinerary[activeDay].difficulty}
+              </span>
             </div>
 
             {/* Day tabs — scrollable on mobile so they never wrap to two lines */}
@@ -271,10 +289,7 @@ const TripMap: React.FC = () => {
             </div>
           </div>
 
-          {/* Map + Sidebar
-              Mobile:  stacked (flex-col) — map on top, sidebar below
-              Desktop: side-by-side (sm:flex-row) — original layout
-          */}
+          {/* Map + Sidebar */}
           <div className="flex flex-col sm:flex-row sm:h-[560px] sm:min-h-[480px]">
             <MapPanel
               mapRef={mapRef}
