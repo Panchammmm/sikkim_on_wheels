@@ -88,7 +88,7 @@ export const itinerary: DayItinerary[] = [
     elevation: 2200,
     elevationGain: "+400m",
     difficulty: "easy",
-    route: "Pelling → Skywalk → Rimbi → Pelling City",
+    route: "Pelling → Skywalk → Rimbi → Khecheopalri Lake → Pelling",
     accommodation: "Tashigang Resort",
     accommodationAddress: "Pelling, West Sikkim 737113",
     highlights: [
@@ -96,6 +96,7 @@ export const itinerary: DayItinerary[] = [
       "Skywalk at Pelling",
       "Sangachoeling Monastery near Skywalk",
       "Rimbi Waterfall & Orange Garden",
+      "Trek arround sacred Khecheopalri Lake",
     ],
     foodSpots: [
       "Hotel Garuda Restaurant - local Sikkimese thali",

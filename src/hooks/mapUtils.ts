@@ -28,6 +28,7 @@ export const DAY_META_MAP: Record<number, DayMeta> = {
       { lat: 27.301, lng: 88.237, label: "Pelling City" },
       { lat: 27.297, lng: 88.223, label: "Skywalk" },
       { lat: 27.315, lng: 88.189, label: "Rimbi" },
+      { lat: 27.348450, lng: 88.191714, label: "Khecheopalri Lake" },
       { lat: 27.301, lng: 88.237, label: "Pelling City" },
     ],
   },
