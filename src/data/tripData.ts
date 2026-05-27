@@ -83,7 +83,7 @@ export const itinerary: DayItinerary[] = [
     day: 3,
     from: "Pelling",
     to: "Pelling City",
-    distance: 40,
+    distance: 54,
     travelTime: "4-5 hours",
     elevation: 2200,
     elevationGain: "+400m",
