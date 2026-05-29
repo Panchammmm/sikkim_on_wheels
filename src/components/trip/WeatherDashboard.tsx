@@ -230,6 +230,11 @@ export default function WeatherDashboard() {
                           <AnimatedNumber value={active.current!.temp} />
                           <span className="text-2xl sm:text-3xl font-normal text-secondary-foreground/50">°C</span>
                         </p>
+                        <p className="text-xs mt-1 text-secondary-foreground/60 leading-none">
+                          Feels like{" "}
+                          <AnimatedNumber value={active.current!.feelsLike} />
+                          <span className="text-xs font-normal text-secondary-foreground/60"> °C</span>
+                        </p>
                         <p className="mt-1 text-xs sm:text-sm text-secondary-foreground/70">
                           {active.current!.condition}
                         </p>
@@ -267,10 +272,9 @@ export default function WeatherDashboard() {
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground whitespace-nowrap">Hi / Lo</span>
                     
                     {/* Range bar header — hidden on mobile */}
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground hidden sm:block">Range</span>
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-1">
                       <Cloud className="h-3 w-3" />
-                      <span className="hidden xs:inline">Rain</span>
+                      <span className="">Rain Chance</span>
                     </span>
                   </div>
 
@@ -297,20 +301,6 @@ export default function WeatherDashboard() {
                           <span className="text-[10px] sm:text-xs text-muted-foreground tabular-nums">
                             /{d.low}°
                           </span>
-                        </div>
-
-                        {/* Temp range bar — hidden on mobile */}
-                        <div className="hidden sm:block">
-                          <div className="h-1.5 rounded-full bg-border overflow-hidden">
-                            <div
-                              className="h-full rounded-full"
-                              style={{
-                                marginLeft: `${Math.max(0, Math.min(90, ((d.low - 5) / 35) * 100))}%`,
-                                width: `${Math.max(8, Math.min(90, ((d.high - d.low) / 35) * 100))}%`,
-                                background: "linear-gradient(90deg, #93C5FD, #FCD34D, #F97316)",
-                              }}
-                            />
-                          </div>
                         </div>
 
                         {/* Rain bar */}

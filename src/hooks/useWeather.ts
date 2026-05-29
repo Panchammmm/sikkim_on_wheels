@@ -5,10 +5,19 @@ import type { WeatherData } from "@/data/types";
 type OpenMeteoResponse = {
   current: {
     temperature_2m: number;
+    apparent_temperature: number;
     relative_humidity_2m: number;
     wind_speed_10m: number;
     weather_code: number;
   };
+
+  hourly: {
+    time: string[];
+    temperature_2m: number[];
+    precipitation_probability: number[];
+    weather_code: number[];
+  };
+
   daily: {
     time: string[];
     temperature_2m_max: number[];
@@ -18,26 +27,75 @@ type OpenMeteoResponse = {
   };
 };
 
-/* 🌦️ WMO WEATHER DECODER */
-const WMO_CODES: Record<number, { label: string; icon: string }> = {
+/* 🌦️ WEATHER TYPES */
+type WeatherCondition = {
+  label: string;
+  icon: string;
+};
+
+/* 🌦️ COMPLETE WMO WEATHER DECODER */
+const WMO_CODES: Record<number, WeatherCondition> = {
+  // Clear / Clouds
   0: { label: "Clear Sky", icon: "☀️" },
   1: { label: "Mainly Clear", icon: "🌤️" },
   2: { label: "Partly Cloudy", icon: "⛅" },
   3: { label: "Overcast", icon: "☁️" },
-  61: { label: "Rain", icon: "🌧️" },
-  80: { label: "Showers", icon: "🌦️" },
+
+  // Fog
+  45: { label: "Fog", icon: "🌫️" },
+  48: { label: "Freezing Fog", icon: "🌫️" },
+
+  // Drizzle
+  51: { label: "Light Drizzle", icon: "🌦️" },
+  53: { label: "Moderate Drizzle", icon: "🌦️" },
+  55: { label: "Dense Drizzle", icon: "🌧️" },
+
+  // Freezing drizzle
+  56: { label: "Freezing Drizzle", icon: "🌧️" },
+  57: { label: "Heavy Freezing Drizzle", icon: "🌧️" },
+
+  // Rain
+  61: { label: "Light Rain", icon: "🌧️" },
+  63: { label: "Moderate Rain", icon: "🌧️" },
+  65: { label: "Heavy Rain", icon: "🌧️" },
+
+  // Freezing rain
+  66: { label: "Freezing Rain", icon: "🌧️" },
+  67: { label: "Heavy Freezing Rain", icon: "🌧️" },
+
+  // Snow
+  71: { label: "Light Snow", icon: "❄️" },
+  73: { label: "Moderate Snow", icon: "❄️" },
+  75: { label: "Heavy Snow", icon: "❄️" },
+
+  // Snow grains
+  77: { label: "Snow Grains", icon: "❄️" },
+
+  // Rain showers
+  80: { label: "Light Showers", icon: "🌦️" },
+  81: { label: "Moderate Showers", icon: "🌦️" },
+  82: { label: "Violent Showers", icon: "⛈️" },
+
+  // Snow showers
+  85: { label: "Snow Showers", icon: "❄️" },
+  86: { label: "Heavy Snow Showers", icon: "❄️" },
+
+  // Thunderstorm
   95: { label: "Thunderstorm", icon: "⛈️" },
+  96: { label: "Thunderstorm with Hail", icon: "⛈️" },
+  99: { label: "Severe Thunderstorm", icon: "⛈️" },
 };
 
-function decodeWMO(code: number) {
-  if (WMO_CODES[code]) return WMO_CODES[code];
-
-  if (code >= 51 && code < 70) return { label: "Drizzle", icon: "🌦️" };
-  if (code >= 71 && code < 80) return { label: "Snow", icon: "❄️" };
-
-  return { label: "Unknown", icon: "❓" };
+function decodeWMO(code: number): WeatherCondition {
+  return (
+    WMO_CODES[code] ?? {
+      label: "Unknown",
+      icon: "❓",
+    }
+  );
 }
 
+/* 📍 LOCATIONS */
 const LOCATIONS = [
   { name: "Siliguri", lat: 26.7271, lon: 88.3953 },
   { name: "Rinchenpong", lat: 27.1833, lon: 88.2667 },
@@ -47,20 +105,62 @@ const LOCATIONS = [
 ];
 
 /* ⏱️ FETCH WITH TIMEOUT */
-async function fetchWithTimeout(url: string, ms = 8000) {
+async function fetchWithTimeout(url: string, ms = 10000) {
   const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), ms);
+
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, ms);
 
   try {
-    return await fetch(url, { signal: controller.signal });
+    const response = await fetch(url, {
+      signal: controller.signal,
+    });
+
+    return response;
   } finally {
-    clearTimeout(id);
+    clearTimeout(timeoutId);
   }
 }
 
 /* 🔗 URL BUILDER */
 function buildWeatherUrl(lat: number, lon: number) {
-  return `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=Asia/Kolkata&forecast_days=5`;
+  const params = new URLSearchParams({
+    latitude: String(lat),
+    longitude: String(lon),
+
+    current: [
+      "temperature_2m",
+      "apparent_temperature",
+      "relative_humidity_2m",
+      "wind_speed_10m",
+      "weather_code",
+    ].join(","),
+
+    hourly: [
+      "temperature_2m",
+      "precipitation_probability",
+      "weather_code",
+    ].join(","),
+
+    daily: [
+      "temperature_2m_max",
+      "temperature_2m_min",
+      "weather_code",
+      "precipitation_probability_max",
+    ].join(","),
+
+    temperature_unit: "celsius",
+    wind_speed_unit: "kmh",
+
+    timezone: "Asia/Kolkata",
+
+    forecast_days: "5",
+
+    models: "best_match",
+  });
+
+  return `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
 }
 
 /* 🔄 TRANSFORM FUNCTION */
@@ -68,36 +168,67 @@ function transformWeather(
   json: OpenMeteoResponse,
   loc: (typeof LOCATIONS)[number]
 ): WeatherData {
-  const wmo = decodeWMO(json.current.weather_code);
+  const currentWeather = decodeWMO(json.current.weather_code);
 
-  const days = Math.min(
+  const dailyLength = Math.min(
     json.daily.time.length,
     json.daily.temperature_2m_max.length,
     json.daily.temperature_2m_min.length,
-    json.daily.weather_code.length
+    json.daily.weather_code.length,
+    json.daily.precipitation_probability_max.length
   );
 
   return {
     location: loc.name,
+
     lat: loc.lat,
     lon: loc.lon,
+
     current: {
       temp: Math.round(json.current.temperature_2m),
+
+      feelsLike: Math.round(json.current.apparent_temperature),
+
       humidity: json.current.relative_humidity_2m,
+
       windSpeed: Math.round(json.current.wind_speed_10m),
-      condition: wmo.label,
-      icon: wmo.icon,
+
+      condition: currentWeather.label,
+
+      icon: currentWeather.icon,
     },
-    daily: Array.from({ length: days }).map((_, i) => {
-      const dw = decodeWMO(json.daily.weather_code[i]);
+
+    hourly: json.hourly.time.slice(0, 24).map((time, i) => {
+      const weather = decodeWMO(json.hourly.weather_code[i]);
+
+      return {
+        time,
+
+        temp: Math.round(json.hourly.temperature_2m[i]),
+
+        rain: json.hourly.precipitation_probability[i] ?? 0,
+
+        condition: weather.label,
+
+        icon: weather.icon,
+      };
+    }),
+
+    daily: Array.from({ length: dailyLength }).map((_, i) => {
+      const weather = decodeWMO(json.daily.weather_code[i]);
 
       return {
         date: json.daily.time[i],
+
         high: Math.round(json.daily.temperature_2m_max[i]),
+
         low: Math.round(json.daily.temperature_2m_min[i]),
-        condition: dw.label,
+
         rain: json.daily.precipitation_probability_max[i] ?? 0,
-        icon: dw.icon,
+
+        condition: weather.label,
+
+        icon: weather.icon,
       };
     }),
   };
@@ -109,37 +240,60 @@ async function fetchWeather(): Promise<WeatherData[]> {
     LOCATIONS.map(async (loc) => {
       try {
         const url = buildWeatherUrl(loc.lat, loc.lon);
-        const res = await fetchWithTimeout(url);
 
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
+        const response = await fetchWithTimeout(url);
+
+        if (!response.ok) {
+          throw new Error(
+            `Weather API Error (${loc.name}): ${response.status}`
+          );
         }
 
-        const json: OpenMeteoResponse = await res.json();
+        const json: OpenMeteoResponse = await response.json();
 
         return transformWeather(json, loc);
-      } catch (err) {
-        console.error(`❌ Weather fetch failed for ${loc.name}`, err);
+      } catch (error) {
+        if (
+          error instanceof DOMException &&
+          error.name === "AbortError"
+        ) {
+          console.error(`⏱️ Request timeout for ${loc.name}`);
+        } else {
+          console.error(`❌ Weather fetch failed for ${loc.name}`, error);
+        }
+
         return null;
       }
     })
   );
 
-  return results.filter((r): r is WeatherData => r !== null);
+  return results.filter(
+    (result): result is WeatherData => result !== null
+  );
 }
 
+/* 🎣 WEATHER HOOK */
 export function useWeather() {
   return useQuery({
-    queryKey: ["weather", LOCATIONS],
+    queryKey: ["weather"],
 
     queryFn: fetchWeather,
 
-    staleTime: 5 * 60 * 1000, // 5 min = no refetch spam
-    refetchInterval: 5 * 60 * 1000, // auto refresh
+    staleTime: 5 * 60 * 1000,
+
+    gcTime: 30 * 60 * 1000,
+
+    refetchInterval: 5 * 60 * 1000,
+
     refetchOnWindowFocus: true,
+
     retry: 2,
 
-    // Optional UX improvement
+    retryDelay: (attempt) =>
+      Math.min(1000 * 2 ** attempt, 10000),
+
     placeholderData: [],
+
+    networkMode: "online",
   });
 }

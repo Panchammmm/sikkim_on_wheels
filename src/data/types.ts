@@ -28,13 +28,24 @@ export type WeatherData = {
   location: string;
   lat: number;
   lon: number;
+  
   current?: {
     temp: number;
+    feelsLike: number;
     humidity: number;
     windSpeed: number;
     condition: string;
     icon: string;
   };
+
+  hourly?: {
+    time: string;
+    temp: number;
+    rain: number;
+    condition: string;
+    icon: string;
+  }[];
+
   daily: {
     date: string;
     high: number;
