@@ -221,7 +221,7 @@ const TripMap: React.FC = () => {
             className={`mx-auto mt-3 sm:mt-4 max-w-xl text-center font-body text-muted-foreground text-sm sm:text-base transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             style={{ transitionDelay: isVisible ? "150ms" : "0ms" }}
           >
-            Follow your journey across Sikkim with live GPS tracking and real road routes.
+            Follow your journey across Sikkim with real road routes.
           </p>
         </div>
 

@@ -8,7 +8,6 @@ export const DAY_META_MAP: Record<number, DayMeta> = {
     stops: [
       { lat: 26.685, lng: 88.444, label: "NJP Station" },
       { lat: 27.131, lng: 88.283, label: "Jorethang" },
-      { lat: 27.279, lng: 88.275, label: "Legship" },
       { lat: 27.241, lng: 88.270, label: "Rinchenpong" },
     ],
   },
@@ -16,7 +15,8 @@ export const DAY_META_MAP: Record<number, DayMeta> = {
     color: "#3B82F6",
     stops: [
       { lat: 27.241, lng: 88.270, label: "Rinchenpong" },
-      { lat: 27.279, lng: 88.275, label: "Legship" },
+      { lat: 27.26160, lng: 88.11304, label: "Singshore Bridge" },
+      { lat: 27.28029, lng: 88.16741, label: "Changay waterfalls" },
       { lat: 27.303, lng: 88.252, label: "Rabdentse Ruins" },
       { lat: 27.304, lng: 88.249, label: "Pemayangtse Monastery" },
       { lat: 27.301, lng: 88.237, label: "Pelling City" },
@@ -38,6 +38,7 @@ export const DAY_META_MAP: Record<number, DayMeta> = {
       { lat: 27.301, lng: 88.237, label: "Pelling City" },
       { lat: 27.302, lng: 88.366, label: "Ravangla" },
       { lat: 27.257, lng: 88.395, label: "Temi Tea Garden" },
+      { lat: 27.18009, lng: 88.37965, label: "Samdruptse" },
       { lat: 27.166, lng: 88.362, label: "Namchi" },
     ],
   },
@@ -45,6 +46,7 @@ export const DAY_META_MAP: Record<number, DayMeta> = {
     color: "#F59E0B",
     stops: [
       { lat: 27.166, lng: 88.362, label: "Namchi" },
+      { lat: 27.11564, lng: 88.42801, label: "Tarey Bhir" },
       { lat: 26.685, lng: 88.444, label: "NJP Station" },
     ],
   },
